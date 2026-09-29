@@ -1,91 +1,127 @@
 /* =====================================================================
-   nav.js — Menu navigasi & dispatcher
+   helpers.js — Utility, lookup, theme, image processing
    ===================================================================== */
 
-const NAV={
-  admin:[
-    {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
-    {key:'verifikasi',label:'Verifikasi',icon:'M9 12l2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z'},
-    {key:'ekskul',label:'Master Ekskul',icon:'M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z'},
-    {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'},
-    {key:'rekap',label:'Rekap',icon:'M3 3v18h18M7 12h3v6H7zM12 8h3v10h-3zM17 5h3v13h-3z'},
-    {key:'laporan',label:'Cetak',icon:'M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z'},
-    {key:'setting',label:'Pengaturan',icon:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z'}
-  ],
-  guru:[
-    {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
-    {key:'pendaftar',label:'Pendaftar',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
-    {key:'sesi',label:'Sesi',icon:'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'},
-    {key:'jurnal',label:'Jurnal',icon:'M4 4h16v16H4zM8 2v4M16 2v4M4 10h16'},
-    {key:'izin',label:'Izin/Sakit',icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'},
-    {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'},
-    {key:'laporan',label:'Cetak',icon:'M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z'}
-  ],
-  pelatih:[
-    {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
-    {key:'pendaftar',label:'Pendaftar',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
-    {key:'sesi',label:'Sesi',icon:'M9 11l3 3L22 4'},
-    {key:'jurnal',label:'Jurnal',icon:'M4 4h16v16H4z'},
-    {key:'izin',label:'Izin/Sakit',icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'},
-    {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'},
-    {key:'laporan',label:'Cetak',icon:'M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z'}
-  ],
-  pengurus:[
-    {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
-    {key:'profil',label:'Profil Ekskul',icon:'M4 4h16v4H4zM4 10h16v4H4z'},
-    {key:'sesi',label:'Sesi',icon:'M9 11l3 3L22 4'},
-    {key:'jurnal',label:'Jurnal',icon:'M4 4h16v16H4z'},
-    {key:'izin',label:'Izin/Sakit',icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'},
-    {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'},
-    {key:'laporan',label:'Cetak',icon:'M6 9V2h12v7'}
-  ],
-  murid:[
-    {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
-    {key:'daftar',label:'Daftar Ekskul',icon:'M12 5v14M5 12h14'},
-    {key:'absen',label:'Absen',icon:'M9 11l3 3L22 4'},
-    {key:'riwayat',label:'Riwayat',icon:'M3 3v18h18M7 12h3v6H7zM12 8h3v10h-3z'},
-    {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'}
-  ]
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=p=>(p||'id')+'_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const hashPwd=p=>{let h=5381;for(let i=0;i<p.length;i++)h=((h<<5)+h+p.charCodeAt(i))|0;return 'h'+(h>>>0).toString(36)};
+const fmtRp=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
+const todayStr=()=>new Date().toISOString().split('T')[0];
+const fmtDateTime=d=>{const x=new Date(d);return x.toLocaleDateString('id-ID',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+x.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});};
+
+function showToast(msg,type='success'){
+  const c=$('#toast-container');if(!c)return;
+  const t=document.createElement('div');
+  t.className='toast';
+  t.style.background=type==='success'?'linear-gradient(135deg,#10B981,#059669)':type==='error'?'linear-gradient(135deg,#EF4444,#DC2626)':'linear-gradient(135deg,#FBBF24,#F59E0B)';
+  t.innerHTML=`<b>${type==='success'?'OK':type==='error'?'Gagal':'Info'}:</b> ${esc(msg)}`;
+  c.appendChild(t);setTimeout(()=>t.remove(),3000);
+}
+
+const userById=id=>USERS.find(u=>u.id_user===id);
+const ekskulById=id=>EKSKUL.find(e=>e.id_ekskul===id);
+const userEkskulIds=id=>PEMBINA.filter(p=>p.id_user===id&&p.status_akun==='aktif').map(p=>p.id_ekskul);
+const anggotaAktifOf=idEkskul=>ANGGOTA.filter(a=>a.id_ekskul===idEkskul&&a.status_anggota==='aktif');
+const muridOfEkskul=idEkskul=>anggotaAktifOf(idEkskul).map(a=>userById(a.id_user)).filter(Boolean);
+const ketuaOf=idEkskul=>{const k=ANGGOTA.find(a=>a.id_ekskul===idEkskul&&a.jabatan==='ketua_ekskul'&&a.status_anggota==='aktif');return k?userById(k.id_user):null};
+
+function downloadCSV(rows,filename){
+  const esc=v=>{const s=String(v??'');return /[,\"\n\r]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+  const csv=rows.map(r=>r.map(esc).join(',')).join('\r\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);showToast('CSV diunduh','success');
+}
+
+/* ---------- COMPRESS & WATERMARK FOTO ---------- */
+function compressImage(file,maxW=1280,quality=0.72){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onerror=reject;
+    reader.onload=e=>{
+      const img=new Image();
+      img.onerror=reject;
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let w=img.width,h=img.height;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+        canvas.width=w;canvas.height=h;
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg',quality));
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function addWatermark(dataUrl,lines){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onerror=reject;
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=img.width;canvas.height=img.height;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0);
+
+      const fs=Math.max(16,Math.round(canvas.width*0.028));
+      ctx.font='bold '+fs+'px "Plus Jakarta Sans", Arial, sans-serif';
+      ctx.textBaseline='top';
+
+      const pad=Math.round(fs*0.5);
+      let maxW=0;
+      lines.forEach(l=>{const w=ctx.measureText(l).width;if(w>maxW)maxW=w;});
+      const boxW=maxW+pad*3;
+      const boxH=lines.length*(fs+4)+pad*2;
+      const bx=canvas.width-boxW-pad*2;
+      const by=canvas.height-boxH-pad*2;
+
+      ctx.fillStyle='rgba(10,14,39,0.65)';
+      ctx.fillRect(bx,by,boxW,boxH);
+      ctx.fillStyle='#FBBF24';
+      ctx.fillRect(bx,by,4,boxH);
+
+      ctx.fillStyle='#fff';
+      lines.forEach((l,i)=>ctx.fillText(l,bx+pad*2,by+pad+i*(fs+4)));
+
+      resolve(canvas.toDataURL('image/jpeg',0.78));
+    };
+    img.src=dataUrl;
+  });
+}
+
+/* Watermark otomatis: tanggal + waktu + ekskul */
+async function processPhoto(file,ekskulNama){
+  const compressed=await compressImage(file);
+  const now=new Date();
+  const tgl=now.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+  const jam=now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WITA';
+  const lines=[ekskulNama||'ETAM',tgl,jam];
+  return await addWatermark(compressed,lines);
+}
+
+/* ---------- THEME ---------- */
+let themeMode=localStorage.getItem('themeMode')||'auto';
+function applyTheme(){
+  let actual=themeMode;
+  if(themeMode==='auto')actual=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  document.documentElement.dataset.theme=actual;
+  const label=themeMode==='light'?'Terang':themeMode==='dark'?'Gelap':'Otomatis';
+  ['','-app'].forEach(sfx=>{const el=$('#theme-label'+sfx);if(el)el.textContent=label});
+}
+function cycleTheme(){
+  themeMode=themeMode==='auto'?'dark':themeMode==='dark'?'light':'auto';
+  localStorage.setItem('themeMode',themeMode);applyTheme();
+}
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(themeMode==='auto')applyTheme()});
+
+window.closeModal=()=>{
+  const root=document.getElementById('modal-root');
+  if(root)root.innerHTML='';
+  if(typeof stopQRScan==='function'){try{stopQRScan();}catch(e){}}
 };
-
-const ROUTES={};
-
-function renderNav(){
-  const r=CURRENT_USER.role_sistem;
-  $('#nav-tabs').innerHTML=NAV[r].map(t=>`<button onclick="showTab('${t.key}')" id="tab-${t.key}" class="tab-btn">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${t.icon}"/></svg>
-    ${esc(t.label)}</button>`).join('');
-  let label=CURRENT_USER.nama_lengkap.split(' ')[0];
-  let peran={admin:'Admin',guru:'Guru',pelatih:'Pelatih',murid:'Murid'}[r];
-  if(r==='pengurus')peran=JABATAN_LABEL_SHORT[CURRENT_USER._jabatan]||'Pengurus';
-  $('#role-badge-text').textContent=label+' · '+peran;
-}
-
-function showTab(key){
-  $$('#nav-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
-  const tb=$('#tab-'+key);if(tb)tb.classList.add('active');
-
-  if(key!=='absen'&&key!=='sesi'){
-    if(typeof stopQRScan === 'function'){
-      try{ stopQRScan(); }catch(e){}
-    }
-  }
-
-  const fn=ROUTES[key];
-  if(!fn){
-    console.warn('Route belum terdefinisi:',key);
-    $('#main-content').innerHTML='<div class="card"><div class="card-body text-center" style="padding:40px;color:var(--text-muted)">Halaman <b>'+key+'</b> belum tersedia.</div></div>';
-    return;
-  }
-
-  $('#main-content').innerHTML='';
-  try{
-    fn($('#main-content'));
-  }catch(err){
-    console.error('Render error pada route "'+key+'":',err);
-    $('#main-content').innerHTML='<div class="card"><div class="card-body text-center" style="padding:40px;color:#F87171">Terjadi kesalahan saat memuat halaman.<br><small style="color:var(--text-muted)">'+(err.message||err)+'</small></div></div>';
-  }
-
-  if(key==='sesi')setTimeout(afterRenderSesi,80);
-}
-window.showTab = showTab;
