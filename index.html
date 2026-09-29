@@ -5,7 +5,254 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Ekskul Etam — Ekstrakurikuler Terpadu Absensi Murid</title>
 
-<!-- QR Scanner -->
+<!-- QR Scanner --><!doctype html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ekskul Etam — Ekstrakurikuler Terpadu Absensi Murid</title>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="login-screen">
+  <div class="login-art-bg" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <div class="login-card animate-fade-in">
+
+    <aside class="login-brand">
+      <div class="brand-top">
+        <div class="brand-badge">ETAM</div>
+        <h2 class="brand-side-title">Ekstrakurikuler<br>Terpadu Absensi Murid</h2>
+        <p class="brand-side-sub">SMP Negeri 10 Samarinda</p>
+      </div>
+
+      <div class="brand-features">
+        <div class="feature-item"><span class="feature-dot"></span><span>Presensi digital real-time</span></div>
+        <div class="feature-item"><span class="feature-dot"></span><span>Jurnal &amp; dokumentasi kegiatan</span></div>
+        <div class="feature-item"><span class="feature-dot"></span><span>Kas &amp; iuran transparan</span></div>
+        <div class="feature-item"><span class="feature-dot"></span><span>Laporan otomatis siap cetak</span></div>
+      </div>
+
+      <p class="brand-copy">&copy; <span id="brand-year"></span> SMP Negeri 10 Samarinda</p>
+      <div class="brand-deco brand-deco-1"></div>
+      <div class="brand-deco brand-deco-2"></div>
+    </aside>
+
+    <section class="login-form-side">
+
+      <div class="login-head">
+        <div class="logo-row">
+          <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
+          <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img" onerror="this.style.display='none'">
+        </div>
+        <h1 class="brand-etam brand-title">EKSKUL ETAM</h1>
+        <p class="brand-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
+      </div>
+
+      <!-- ============ VIEW LOGIN ============ -->
+      <div id="view-login">
+        <p class="role-section-label">Masuk Sebagai</p>
+
+        <div class="role-tabs" role="tablist">
+          <button type="button" class="role-tab active" data-role="murid" onclick="selectLoginRole('murid')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+            <span>Siswa</span>
+          </button>
+
+          <button type="button" class="role-tab" data-role="guru" onclick="selectLoginRole('guru')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Guru / Pelatih</span>
+          </button>
+
+          <button type="button" class="role-tab" data-role="admin" onclick="selectLoginRole('admin')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <span>Admin</span>
+          </button>
+        </div>
+
+        <p class="role-hint" id="login-role-hint">Masuk sebagai <b>Siswa</b></p>
+
+        <form id="form-login" onsubmit="handleLogin(event)">
+          <div class="field-group">
+            <label class="field-label" for="login-email">Email</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M22 6l-10 7L2 6"/>
+              </svg>
+              <input type="email" id="login-email" class="field-input has-icon" placeholder="nama@email.com" autocomplete="username" required>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="login-password">Password</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" id="login-password" class="field-input has-icon" placeholder="Masukkan password" autocomplete="current-password" required>
+            </div>
+          </div>
+
+          <div id="login-error" class="alert alert-error hidden"></div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            <span>Masuk</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="login-register" id="login-register-row">
+          <span>Belum punya akun?</span>
+          <a onclick="openRegister()">Daftar sebagai Siswa</a>
+        </div>
+
+        <div class="login-footer">
+          <span class="login-footer-label">Tema tampilan</span>
+          <button type="button" class="theme-toggle-btn" onclick="cycleTheme()">
+            <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+            </svg>
+            <span id="theme-label">Otomatis</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============ VIEW REGISTER ============ -->
+      <div id="view-register" class="hidden">
+        <button type="button" class="back-btn" onclick="closeRegister()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Kembali ke Login
+        </button>
+
+        <h2 class="register-title">Daftar Akun Siswa</h2>
+        <p class="register-subtitle">Isi data berikut untuk mendaftar ke ekstrakurikuler.</p>
+
+        <form id="form-register" onsubmit="handleRegister(event)">
+          <div class="field-group">
+            <label class="field-label" for="reg-name">Nama Lengkap</label>
+            <input type="text" id="reg-name" class="field-input" placeholder="Nama lengkap" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="reg-email">Email</label>
+            <input type="email" id="reg-email" class="field-input" placeholder="nama@email.com" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="reg-wa">No. WhatsApp</label>
+            <input type="tel" id="reg-wa" class="field-input" placeholder="08xx" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="reg-kelas">Kelas</label>
+            <select id="reg-kelas" class="field-input" required>
+              <option value="">Pilih Kelas</option>
+              <option>7A</option><option>7B</option><option>7C</option><option>7D</option><option>7E</option>
+              <option>7F</option><option>7G</option><option>7H</option><option>7I</option><option>7J</option>
+              <option>8A</option><option>8B</option><option>9A</option><option>9B</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="reg-password">Password</label>
+            <input type="password" id="reg-password" class="field-input" placeholder="Min 6 karakter" required minlength="6">
+          </div>
+          <div id="reg-error" class="alert alert-error hidden"></div>
+          <div id="reg-info" class="alert alert-info hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <span>Daftar Sekarang</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+  <header class="app-header">
+    <div class="header-inner">
+      <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
+      <div class="header-titles">
+        <h1 class="brand-etam header-title">EKSKUL ETAM</h1>
+        <p class="header-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
+        <p class="header-school">UPT SMP Negeri 10 Samarinda</p>
+      </div>
+      <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img header-logo-right" onerror="this.style.display='none'">
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" onclick="cycleTheme()" title="Ganti tema">
+          <svg id="theme-icon-app" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4"/>
+          </svg>
+          <span id="theme-label-app" class="hide-mobile">Otomatis</span>
+        </button>
+        <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
+        <button type="button" onclick="logout()" class="btn-icon btn-dark" title="Keluar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <path d="M16 17l5-5-5-5M21 12H9"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <div class="nav-tabs" id="nav-tabs"></div>
+    </div>
+  </nav>
+
+  <main class="main-content" id="main-content"></main>
+
+  <div id="toast-container" class="toast-container"></div>
+</div>
+
+<div id="modal-root"></div>
+<div id="print-area"></div>
+
+<script src="js/config.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/routes-admin.js"></script>
+<script src="js/routes-guru.js"></script>
+<script src="js/routes-murid.js"></script>
+<script src="js/routes-kas.js"></script>
+<script src="js/routes-laporan.js"></script>
+<script src="js/init.js"></script>
+</body>
+</html>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
