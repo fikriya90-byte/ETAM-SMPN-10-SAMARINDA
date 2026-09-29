@@ -1,7 +1,10 @@
 /* =====================================================================
-   EKSKUL ETAM — Custom Style (Tema + Komponen)
-   Layout/utility ditangani oleh Tailwind CDN.
-   File ini hanya mengatur: variabel warna, tema, dan komponen kustom.
+   EKSKUL ETAM — Style (Tema + Komponen + Login + Header)
+   Layout JS memakai Tailwind CDN. File ini menambahkan:
+   1. Variabel tema (dark/light)
+   2. Komponen kustom (card, btn, chip, badge, stat-card, dll)
+   3. Gaya Login Screen
+   4. Gaya App Header + Nav
    ===================================================================== */
 
 /* ---------- THEME VARIABLES ---------- */
@@ -12,7 +15,6 @@
   --green:#16A34A;
   --blue:#2563EB;
 }
-
 html[data-theme="dark"]{
   --bg:#0B0B0D;
   --bg-elev:#131317;
@@ -27,7 +29,6 @@ html[data-theme="dark"]{
   --overlay:rgba(0,0,0,.75);
   --shadow:0 4px 20px -8px rgba(0,0,0,.6);
 }
-
 html[data-theme="light"]{
   --bg:#F2F3F5;
   --bg-elev:#FFFFFF;
@@ -46,40 +47,29 @@ html[data-theme="light"]{
 }
 
 /* ---------- BASE ---------- */
-html,body{
+*,*::before,*::after{box-sizing:border-box}
+body{
   background:var(--bg);
   color:var(--text);
   font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
   font-size:14px;
   line-height:1.5;
   min-height:100vh;
+  margin:0;
   -webkit-font-smoothing:antialiased;
 }
 
-/* Override untuk body yang dipakai background */
-body{background:var(--bg)}
-
-/* ---------- BRAND / TYPOGRAPHY ---------- */
+/* ---------- BRAND ---------- */
 .font-display{font-family:'Playfair Display',Georgia,serif}
-
 .brand-etam{
   font-family:'Playfair Display',Georgia,serif;
   font-weight:700;
-  letter-spacing:.12em;
+  letter-spacing:.1em;
   background:linear-gradient(135deg,var(--gold-soft),var(--gold),#B8860B);
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
   color:transparent;
-}
-
-.brand-title{font-size:32px;line-height:1.15;text-align:center;margin-bottom:6px}
-.brand-subtitle{font-size:14px;font-weight:600;color:var(--text);text-align:center}
-.brand-slogan{font-size:11px;font-style:italic;color:var(--gold);margin-top:4px;text-align:center}
-.brand-school{font-size:11px;color:var(--text-muted);margin-top:6px;text-align:center}
-
-@media(max-width:480px){
-  .brand-title{font-size:26px}
 }
 
 /* =====================================================================
@@ -99,12 +89,11 @@ body{background:var(--bg)}
   content:"";
   position:absolute;
   inset:0;
+  pointer-events:none;
   background-image:
     repeating-linear-gradient(45deg,transparent 0 24px,rgba(232,181,5,.05) 24px 25px,transparent 25px 48px),
     repeating-linear-gradient(-45deg,transparent 0 24px,rgba(220,38,38,.04) 24px 25px,transparent 25px 48px);
-  pointer-events:none;
 }
-
 .login-card{
   position:relative;
   background:var(--surface);
@@ -114,8 +103,13 @@ body{background:var(--bg)}
   max-width:460px;
   width:100%;
   box-shadow:0 20px 60px -20px rgba(0,0,0,.5);
+  z-index:1;
+}
+@media(max-width:480px){
+  .login-card{padding:24px 20px}
 }
 
+.login-head{text-align:center;margin-bottom:22px}
 .logo-row{
   display:flex;
   align-items:center;
@@ -123,24 +117,23 @@ body{background:var(--bg)}
   gap:16px;
   margin-bottom:14px;
 }
-
-.login-footer{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-top:16px;
-  margin-top:16px;
-  border-top:1px solid var(--border);
+.logo-img{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  flex-shrink:0;
 }
-.login-footer-label{font-size:12px;color:var(--text-dim)}
-
-.demo-hint{
-  font-size:11px;
-  color:var(--text-dim);
-  text-align:center;
-  margin-top:12px;
+@media(max-width:480px){
+  .logo-img{width:42px;height:42px}
 }
-.demo-hint b{color:var(--gold);font-weight:700}
+
+.brand-title{font-size:30px;line-height:1.15;margin-bottom:6px}
+.brand-subtitle{font-size:13.5px;font-weight:600;color:var(--text)}
+.brand-slogan{font-size:11px;font-style:italic;color:var(--gold);margin-top:4px}
+.brand-school{font-size:11px;color:var(--text-muted);margin-top:6px}
+@media(max-width:480px){
+  .brand-title{font-size:24px}
+}
 
 /* ---------- AUTH TABS ---------- */
 .auth-tabs{
@@ -172,171 +165,7 @@ body{background:var(--bg)}
   color:#0B0B0D;
 }
 
-/* =====================================================================
-   HEADER (app)
-   ===================================================================== */
-.app-header{
-  background:var(--bg-elev);
-  border-bottom:1px solid var(--border);
-  position:relative;
-  overflow:hidden;
-}
-.app-header::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    repeating-linear-gradient(45deg,transparent 0 16px,rgba(232,181,5,.035) 16px 17px,transparent 17px 32px),
-    repeating-linear-gradient(-45deg,transparent 0 16px,rgba(220,38,38,.025) 16px 17px,transparent 17px 32px);
-  pointer-events:none;
-}
-.header-inner{
-  position:relative;
-  max-width:80rem;
-  margin:0 auto;
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-@media(min-width:640px){
-  .header-inner{padding:16px 20px}
-}
-.header-titles{flex:1;min-width:0}
-.header-title{font-size:18px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(min-width:640px){
-  .header-title{font-size:22px}
-}
-.header-subtitle{
-  font-size:12px;
-  color:var(--text-muted);
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.header-school{
-  font-size:11px;
-  color:var(--text-dim);
-  margin-top:2px;
-  display:none;
-}
-@media(min-width:768px){
-  .header-school{display:block}
-}
-.header-logo-right{display:none}
-@media(min-width:640px){
-  .header-logo-right{display:block}
-}
-.header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-
-/* ---------- LOGO ---------- */
-.logo-img{
-  width:48px;
-  height:48px;
-  object-fit:contain;
-  flex-shrink:0;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));
-}
-@media(max-width:480px){
-  .logo-img{width:42px;height:42px}
-}
-
-/* =====================================================================
-   NAV BAR
-   ===================================================================== */
-.nav-bar{
-  position:sticky;
-  top:0;
-  z-index:40;
-  border-bottom:1px solid var(--border);
-  background:color-mix(in srgb,var(--bg) 94%,transparent);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.nav-inner{
-  max-width:80rem;
-  margin:0 auto;
-  padding:0 16px;
-}
-@media(min-width:640px){
-  .nav-inner{padding:0 20px}
-}
-.nav-tabs{
-  display:flex;
-  gap:8px;
-  padding:10px 0;
-  overflow-x:auto;
-  scrollbar-width:none;
-}
-.nav-tabs::-webkit-scrollbar{display:none}
-
-/* ---------- TAB BUTTONS ---------- */
-.tab-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:8px 14px;
-  border-radius:9px;
-  font-size:13.5px;
-  font-weight:600;
-  color:var(--text-muted);
-  background:transparent;
-  border:1px solid transparent;
-  white-space:nowrap;
-  cursor:pointer;
-  font-family:inherit;
-  transition:all .15s;
-}
-.tab-btn:hover{color:var(--text);background:var(--surface-2)}
-.tab-btn.active{
-  color:#0B0B0D;
-  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
-  box-shadow:0 4px 14px -6px rgba(232,181,5,.5);
-}
-@media(max-width:640px){
-  .tab-btn{padding:7px 11px;font-size:12.5px}
-}
-
-/* =====================================================================
-   MAIN CONTENT
-   ===================================================================== */
-.main-content{
-  max-width:80rem;
-  margin:0 auto;
-  padding:20px 16px;
-}
-@media(min-width:640px){
-  .main-content{padding:20px}
-}
-
-/* =====================================================================
-   CARD
-   ===================================================================== */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-}
-.card-header{
-  padding:14px 18px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.card-body{padding:18px}
-@media(max-width:640px){
-  .card-header{padding:12px 14px}
-  .card-body{padding:14px}
-}
-
-/* =====================================================================
-   FORM
-   ===================================================================== */
+/* ---------- FORM ---------- */
 .field-group{margin-bottom:14px}
 .field-label{
   display:block;
@@ -367,9 +196,7 @@ body{background:var(--bg)}
 .field-input:disabled{opacity:.55;cursor:not-allowed}
 textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 
-/* =====================================================================
-   BUTTONS
-   ===================================================================== */
+/* ---------- BUTTONS ---------- */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -383,14 +210,11 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
   border:1px solid transparent;
   font-family:inherit;
   white-space:nowrap;
-  transition:filter .15s,background .15s,transform .1s;
+  transition:filter .15s,background .15s;
   line-height:1.2;
-  text-decoration:none;
 }
-.btn:active{transform:translateY(1px)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .btn-block{width:100%;padding:11px}
-
 .btn-primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#0B0B0D}
 .btn-primary:hover{filter:brightness(1.08)}
 .btn-dark{background:var(--surface-2);color:var(--text);border-color:var(--border)}
@@ -403,7 +227,6 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 .btn-blue:hover{filter:brightness(1.08)}
 .btn-purple{background:linear-gradient(135deg,#8B5CF6,#6D28D9);color:#fff}
 .btn-purple:hover{filter:brightness(1.08)}
-
 .btn-icon{
   display:inline-flex;
   align-items:center;
@@ -415,11 +238,10 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
   cursor:pointer;
   font-family:inherit;
   transition:background .15s;
+  border:1px solid transparent;
 }
 
-/* =====================================================================
-   ALERT
-   ===================================================================== */
+/* ---------- ALERT ---------- */
 .alert{
   font-size:12px;
   padding:10px 14px;
@@ -438,9 +260,25 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
   border:1px solid rgba(96,165,250,.3);
 }
 
-/* =====================================================================
-   THEME TOGGLE & ROLE BADGE
-   ===================================================================== */
+/* ---------- LOGIN FOOTER ---------- */
+.login-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:16px;
+  margin-top:16px;
+  border-top:1px solid var(--border);
+}
+.login-footer-label{font-size:12px;color:var(--text-dim)}
+.demo-hint{
+  font-size:11px;
+  color:var(--text-dim);
+  text-align:center;
+  margin-top:12px;
+}
+.demo-hint b{color:var(--gold);font-weight:700}
+
+/* ---------- THEME TOGGLE ---------- */
 .theme-toggle-btn{
   display:inline-flex;
   align-items:center;
@@ -472,8 +310,168 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 }
 
 /* =====================================================================
-   STAT CARDS
+   APP HEADER
    ===================================================================== */
+.app-header{
+  background:var(--bg-elev);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+.app-header::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0 16px,rgba(232,181,5,.035) 16px 17px,transparent 17px 32px),
+    repeating-linear-gradient(-45deg,transparent 0 16px,rgba(220,38,38,.025) 16px 17px,transparent 17px 32px);
+}
+.header-inner{
+  position:relative;
+  max-width:1200px;
+  margin:0 auto;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+@media(min-width:640px){
+  .header-inner{padding:16px 20px}
+}
+.header-titles{flex:1;min-width:0}
+.header-title{
+  font-size:17px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media(min-width:640px){
+  .header-title{font-size:21px}
+}
+.header-subtitle{
+  font-size:12px;
+  color:var(--text-muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.header-school{
+  font-size:11px;
+  color:var(--text-dim);
+  margin-top:2px;
+  display:none;
+}
+@media(min-width:768px){
+  .header-school{display:block}
+}
+.header-logo-right{display:none}
+@media(min-width:640px){
+  .header-logo-right{display:block}
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
+.hide-mobile{display:inline-flex}
+@media(max-width:640px){
+  .hide-mobile{display:none !important}
+}
+
+/* =====================================================================
+   NAV
+   ===================================================================== */
+.nav-bar{
+  position:sticky;
+  top:0;
+  z-index:40;
+  border-bottom:1px solid var(--border);
+  background:color-mix(in srgb,var(--bg) 94%,transparent);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.nav-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 16px;
+}
+@media(min-width:640px){
+  .nav-inner{padding:0 20px}
+}
+.nav-tabs{
+  display:flex;
+  gap:8px;
+  padding:10px 0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav-tabs::-webkit-scrollbar{display:none}
+
+.tab-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 14px;
+  border-radius:9px;
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--text-muted);
+  background:transparent;
+  border:1px solid transparent;
+  white-space:nowrap;
+  cursor:pointer;
+  font-family:inherit;
+  transition:all .15s;
+}
+.tab-btn:hover{color:var(--text);background:var(--surface-2)}
+.tab-btn.active{
+  color:#0B0B0D;
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+  box-shadow:0 4px 14px -6px rgba(232,181,5,.5);
+}
+@media(max-width:640px){
+  .tab-btn{padding:7px 11px;font-size:12.5px}
+}
+
+/* ---------- MAIN ---------- */
+.main-content{
+  max-width:1200px;
+  margin:0 auto;
+  padding:20px 16px;
+}
+@media(min-width:640px){
+  .main-content{padding:20px}
+}
+
+/* =====================================================================
+   KOMPONEN (dipakai JS)
+   ===================================================================== */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.card-header{
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.card-body{padding:18px}
+@media(max-width:640px){
+  .card-header{padding:12px 14px}
+  .card-body{padding:14px}
+}
+
+/* ---------- STAT CARD ---------- */
 .stat-card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -498,9 +496,7 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 .stat-cash::before{background:var(--gold)}
 .stat-p::before{background:#8B5CF6}
 
-/* =====================================================================
-   BADGES & CHIPS
-   ===================================================================== */
+/* ---------- BADGE ---------- */
 .badge{
   display:inline-flex;
   align-items:center;
@@ -517,6 +513,7 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 .badge-A{background:#DC2626;color:#fff}
 .badge-P{background:#7C3AED;color:#fff}
 
+/* ---------- CHIP ---------- */
 .chip{
   display:inline-block;
   padding:3px 10px;
@@ -531,10 +528,7 @@ textarea.field-input{resize:vertical;min-height:70px;line-height:1.5}
 .chip-no{background:rgba(248,113,113,.15);color:#F87171}
 .chip-info{background:rgba(96,165,250,.15);color:#60A5FA}
 
-/* =====================================================================
-   TABLES
-   ===================================================================== */
-table{width:100%;border-collapse:separate;border-spacing:0}
+/* ---------- TABEL ---------- */
 thead th{
   background:var(--surface-2);
   color:var(--gold);
@@ -557,9 +551,7 @@ tbody td{
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:var(--surface-2)}
 
-/* =====================================================================
-   MATRIKS BAYAR
-   ===================================================================== */
+/* ---------- MATRIKS BAYAR ---------- */
 .cell-bayar{
   width:38px;
   height:38px;
@@ -583,9 +575,7 @@ tbody tr:hover td{background:var(--surface-2)}
   .cell-bayar-mini{width:28px;height:28px;font-size:11px}
 }
 
-/* =====================================================================
-   MODAL
-   ===================================================================== */
+/* ---------- MODAL ---------- */
 .modal-overlay{
   position:fixed;
   inset:0;
@@ -599,9 +589,7 @@ tbody tr:hover td{background:var(--surface-2)}
   padding:16px;
 }
 
-/* =====================================================================
-   TOAST
-   ===================================================================== */
+/* ---------- TOAST ---------- */
 .toast-container{
   position:fixed;
   top:16px;
@@ -623,56 +611,50 @@ tbody tr:hover td{background:var(--surface-2)}
   max-width:340px;
 }
 
-/* =====================================================================
-   SCROLLBAR
-   ===================================================================== */
-.custom-scrollbar::-webkit-scrollbar{width:8px;height:8px}
-.custom-scrollbar::-webkit-scrollbar-track{background:transparent}
-.custom-scrollbar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover{background:var(--text-dim)}
-
-/* =====================================================================
-   QR BOX
-   ===================================================================== */
+/* ---------- QR ---------- */
 .qr-box{
   padding:16px;
   background:#fff;
   border-radius:14px;
   display:inline-block;
 }
-#qr-reader{width:100%;max-width:420px;margin:0 auto;border-radius:14px;overflow:hidden}
+#qr-reader{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  border-radius:14px;
+  overflow:hidden;
+}
 #qr-reader video{border-radius:12px}
 
-/* =====================================================================
-   ANIMATIONS
-   ===================================================================== */
+/* ---------- SCROLLBAR ---------- */
+.custom-scrollbar::-webkit-scrollbar{width:8px;height:8px}
+.custom-scrollbar::-webkit-scrollbar-track{background:transparent}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover{background:var(--text-dim)}
+
+/* ---------- ANIMASI ---------- */
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(6px)}
   to{opacity:1;transform:translateY(0)}
 }
 .animate-fade-in{animation:fadeIn .25s ease forwards}
-
 @keyframes slideIn{
   from{transform:translateX(24px);opacity:0}
   to{transform:translateX(0);opacity:1}
 }
 
-/* =====================================================================
-   UTILITY OVERRIDES
-   ===================================================================== */
+/* ---------- UTILITY (fallback jika Tailwind belum dimuat) ---------- */
 .hidden{display:none !important}
-.hide-mobile{display:inline-flex}
-@media(max-width:640px){
-  .hide-mobile{display:none !important}
-}
+.w-full{width:100%}
+.min-h-full{min-height:100%}
+.min-h-screen{min-height:100vh}
 
-/* =====================================================================
-   PRINT
-   ===================================================================== */
+/* ---------- PRINT ---------- */
 #print-area{display:none}
 @media print{
-  body > *{display:none !important}
-  body > #print-area{display:block !important}
+  body>*{display:none !important}
+  body>#print-area{display:block !important}
   @page{size:A4;margin:1.2cm}
   html,body{background:#fff !important;color:#000 !important}
 }
