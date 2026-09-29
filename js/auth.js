@@ -1,32 +1,25 @@
 /* =====================================================================
-   auth.js — Login dengan pilihan role
-   + event delegation agar klik tab selalu terdeteksi
+   auth.js — Login dengan pilihan role + event delegation
    ===================================================================== */
 
 let loginRole = 'murid';
 
-/* ---------- Pilih role ---------- */
 function selectLoginRole(role){
-  if (!role) return;
+  if(!role)return;
   loginRole = role;
-
   document.querySelectorAll('.role-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.role === role);
   });
-
-  const labels = { murid: 'Siswa', guru: 'Guru / Pelatih', admin: 'Admin' };
+  const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
   const hintEl = document.getElementById('login-role-hint');
   if (hintEl) hintEl.innerHTML = 'Masuk sebagai <b>' + labels[role] + '</b>';
-
   const regRow = document.getElementById('login-register-row');
   if (regRow) regRow.style.display = role === 'murid' ? 'flex' : 'none';
-
   const err = document.getElementById('login-error');
   if (err) err.classList.add('hidden');
 }
 window.selectLoginRole = selectLoginRole;
 
-/* ---------- Switch view ---------- */
 function openRegister(){
   document.getElementById('view-login').classList.add('hidden');
   document.getElementById('view-register').classList.remove('hidden');
@@ -43,7 +36,6 @@ function closeRegister(){
 }
 window.closeRegister = closeRegister;
 
-/* ---------- Login ---------- */
 function handleLogin(ev){
   ev.preventDefault();
   const email = document.getElementById('login-email').value.trim().toLowerCase();
@@ -64,7 +56,7 @@ function handleLogin(ev){
     admin: ['admin']
   };
   if (!roleMap[loginRole].includes(u.role_sistem)) {
-    const labels = { murid: 'Siswa', guru: 'Guru / Pelatih', admin: 'Admin' };
+    const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
     return fail('Akun ini bukan akun ' + labels[loginRole] + '. Pilih tipe akun yang sesuai.');
   }
 
@@ -73,7 +65,8 @@ function handleLogin(ev){
     return fail('Akun Anda menunggu verifikasi Admin');
   }
 
-  CURRENT_USER = u;
+  CURRENT_USER = { ...u };
+
   if (u.role_sistem === 'murid') {
     const a = ANGGOTA.find(x =>
       x.id_user === u.id_user &&
@@ -94,7 +87,6 @@ function handleLogin(ev){
 }
 window.handleLogin = handleLogin;
 
-/* ---------- Register ---------- */
 function handleRegister(ev){
   ev.preventDefault();
   const name  = document.getElementById('reg-name').value.trim();
@@ -113,14 +105,9 @@ function handleRegister(ev){
   if (!kelas) return fail('Pilih kelas');
 
   const nu = {
-    id_user: uid('u'),
-    nama_lengkap: name,
-    email,
-    password: hashPwd(pwd),
-    no_wa: wa,
-    role_sistem: 'murid',
-    kelas,
-    active: true,
+    id_user: uid('u'), nama_lengkap: name, email,
+    password: hashPwd(pwd), no_wa: wa,
+    role_sistem: 'murid', kelas, active: true,
     created_at: new Date().toISOString()
   };
   USERS.push(nu);
@@ -134,17 +121,15 @@ function handleRegister(ev){
 }
 window.handleRegister = handleRegister;
 
-/* ---------- Kompatibilitas ---------- */
 function switchAuth(w){
   if (w === 'register') openRegister();
   else closeRegister();
 }
 window.switchAuth = switchAuth;
 
-/* ---------- Logout ---------- */
 function logout(){
   if (!confirm('Keluar dari akun ini?')) return;
-  if (typeof stopQRScan === 'function') stopQRScan();
+  if (typeof stopQRScan === 'function') { try { stopQRScan(); } catch(e) {} }
   localStorage.removeItem('etam_session');
   CURRENT_USER = null;
   CURRENT_EKSKUL_CTX = null;
@@ -155,7 +140,6 @@ function logout(){
 }
 window.logout = logout;
 
-/* ---------- Enter App ---------- */
 function enterApp(){
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').classList.remove('hidden');
@@ -164,19 +148,13 @@ function enterApp(){
 }
 window.enterApp = enterApp;
 
-/* =====================================================================
-   EVENT DELEGATION — jaring pengaman agar klik selalu terdeteksi
-   (bekerja walau onclick di HTML bermasalah / diblokir)
-   ===================================================================== */
+/* Event delegation untuk role tabs */
 document.addEventListener('click', function(e){
-  // Tab role
   const roleTab = e.target.closest('.role-tab');
   if (roleTab && roleTab.dataset.role) {
     selectLoginRole(roleTab.dataset.role);
     return;
   }
-
-  // Link buka register
   const regLink = e.target.closest('.login-register a');
   if (regLink) {
     e.preventDefault();
@@ -185,7 +163,6 @@ document.addEventListener('click', function(e){
   }
 }, false);
 
-/* ---------- Init saat DOM siap ---------- */
 function __etamAuthInit(){
   selectLoginRole('murid');
   const y = document.getElementById('brand-year');
