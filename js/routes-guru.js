@@ -8,14 +8,14 @@ ROUTES._dashGuru=el=>{
   const sesiOpen=JURNAL.filter(j=>ids.includes(j.id_ekskul)&&j.status==='open').length;
   const pendIzin=PRESENSI.filter(p=>(p.status==='izin_pending'||p.status==='sakit_pending')&&JURNAL.filter(j=>ids.includes(j.id_ekskul)).some(j=>j.id_pertemuan===p.id_pertemuan)).length;
   el.innerHTML=`<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-    <div class="stat-card stat-p"><p class="text-xs uppercase" style="color:var(--text-dim)">Pendaftar</p><p class="text-2xl font-extrabold mt-1" style="color:#C4B5FD">${pend}</p></div>
-    <div class="stat-card stat-h"><p class="text-xs uppercase" style="color:var(--text-dim)">Sesi Aktif</p><p class="text-2xl font-extrabold mt-1" style="color:#4ADE80">${sesiOpen}</p></div>
+    <div class="stat-card stat-p"><p class="text-xs uppercase" style="color:var(--text-dim)">Pendaftar</p><p class="text-2xl font-extrabold mt-1" style="color:#F472B6">${pend}</p></div>
+    <div class="stat-card stat-h"><p class="text-xs uppercase" style="color:var(--text-dim)">Sesi Aktif</p><p class="text-2xl font-extrabold mt-1" style="color:#34D399">${sesiOpen}</p></div>
     <div class="stat-card stat-i"><p class="text-xs uppercase" style="color:var(--text-dim)">Izin Pending</p><p class="text-2xl font-extrabold mt-1" style="color:#FBBF24">${pendIzin}</p></div>
-    <div class="stat-card stat-cash"><p class="text-xs uppercase" style="color:var(--text-dim)">Ekskul</p><p class="text-2xl font-extrabold mt-1" style="color:var(--gold)">${ids.length}</p></div></div>
-    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--gold)">Ekskul Anda</h3></div><div class="card-body">
+    <div class="stat-card stat-cash"><p class="text-xs uppercase" style="color:var(--text-dim)">Ekskul</p><p class="text-2xl font-extrabold mt-1" style="color:#A78BFA">${ids.length}</p></div></div>
+    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--text)">Ekskul Anda</h3></div><div class="card-body">
       ${ids.map(id=>{const e=ekskulById(id);if(!e)return '';const kt=ketuaOf(id);
         return `<div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--border);border-radius:11px;margin-bottom:8px">
-          <div style="width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0B0B0D;background:linear-gradient(135deg,var(--gold-soft),var(--gold))">${esc(e.nama_ekskul.slice(0,2).toUpperCase())}</div>
+          <div style="width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0B0B0D;background:linear-gradient(135deg,#3B82F6,#8B5CF6)">${esc(e.nama_ekskul.slice(0,2).toUpperCase())}</div>
           <div class="flex-1"><p class="font-semibold text-sm">${esc(e.nama_ekskul)}</p>
           <p class="text-xs" style="color:var(--text-dim)">${anggotaAktifOf(id).length} anggota · Ketua: ${kt?esc(kt.nama_lengkap):'—'}</p></div></div>`;}).join('')||`<p class="text-sm text-center py-6" style="color:var(--text-dim)">Belum ada ekskul.</p>`}</div></div>`;
 };
@@ -25,16 +25,16 @@ ROUTES.pendaftar=el=>{
   const pend=ANGGOTA.filter(a=>ids.includes(a.id_ekskul)&&a.status_anggota==='pending');
   const aktif=ANGGOTA.filter(a=>ids.includes(a.id_ekskul)&&a.status_anggota==='aktif');
   el.innerHTML=`
-    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Pendaftar Menunggu</h2><span class="chip">${pend.length}</span></div>
+    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Pendaftar Menunggu</h2><span class="chip">${pend.length}</span></div>
     <div class="overflow-x-auto custom-scrollbar"><table><thead><tr><th>Nama</th><th>Kelas</th><th>Ekskul</th><th>WA</th><th style="text-align:center;">Aksi</th></tr></thead>
     <tbody>${pend.length?pend.map(a=>{const u=userById(a.id_user),e=ekskulById(a.id_ekskul);if(!u||!e)return '';
       return `<tr><td class="font-semibold">${esc(u.nama_lengkap)}</td><td>${esc(u.kelas||'-')}</td><td><span class="chip">${esc(e.nama_ekskul)}</span></td>
       <td style="color:var(--text-muted)">${esc(u.no_wa||'-')}</td>
       <td class="text-center"><div class="flex gap-1 justify-center">
-        <button onclick="approveAnggota('${a.id_anggota}',true)" class="btn btn-success" style="padding:5px 12px;font-size:12px;">✓ Terima</button>
-        <button onclick="approveAnggota('${a.id_anggota}',false)" class="btn btn-danger" style="padding:5px 12px;font-size:12px;">✕ Tolak</button>
+        <button onclick="approveAnggota('${a.id_anggota}',true)" class="btn btn-success" style="padding:5px 12px;font-size:12px;">Terima</button>
+        <button onclick="approveAnggota('${a.id_anggota}',false)" class="btn btn-danger" style="padding:5px 12px;font-size:12px;">Tolak</button>
       </div></td></tr>`;}).join(''):`<tr><td colspan="5" class="text-center" style="padding:24px;color:var(--text-dim)">Kosong.</td></tr>`}</tbody></table></div></div>
-    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--gold)">Anggota Aktif — Tunjuk Pengurus</h3></div>
+    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--text)">Anggota Aktif — Tunjuk Pengurus</h3></div>
     <div class="overflow-x-auto custom-scrollbar"><table><thead><tr><th>Nama</th><th>Kelas</th><th>Ekskul</th><th>Jabatan</th><th style="text-align:center;">Aksi</th></tr></thead>
     <tbody>${aktif.length?aktif.map(a=>{const u=userById(a.id_user),e=ekskulById(a.id_ekskul);if(!u||!e)return '';
       const jab=a.jabatan||'anggota',isPeng=jab!=='anggota';
@@ -50,7 +50,7 @@ ROUTES.pendaftar=el=>{
   window.openTunjukPengurus=id=>{
     const a=ANGGOTA.find(x=>x.id_anggota===id);if(!a)return;const u=userById(a.id_user),e=ekskulById(a.id_ekskul);
     $('#modal-root').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal()">
-      <div class="card w-full max-w-md animate-fade-in"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--gold)">Atur Jabatan</h3></div>
+      <div class="card w-full max-w-md animate-fade-in"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--text)">Atur Jabatan</h3></div>
       <div class="card-body space-y-3.5">
         <div class="px-3 py-3 rounded-lg" style="background:var(--surface-2)">
           <p class="text-xs" style="color:var(--text-dim)">Nama</p><p class="font-semibold">${esc(u?u.nama_lengkap:'-')}</p>
@@ -62,7 +62,7 @@ ROUTES.pendaftar=el=>{
           <option value="sekretaris_ekskul">Sekretaris</option>
           <option value="bendahara_ekskul">Bendahara</option>
         </select></div>
-        <p class="text-xs" style="color:var(--text-dim)">Pengurus dapat melihat daftar status bayar semua anggota.</p>
+        <p class="text-xs" style="color:var(--text-dim)">Pengurus dapat melihat status bayar semua anggota.</p>
         <div class="flex gap-2"><button onclick="saveJabatan('${id}')" class="btn btn-primary flex-1">Simpan</button>
         <button onclick="closeModal()" class="btn btn-dark flex-1">Batal</button></div></div></div></div>`;
     $('#jab-select').value=a.jabatan||'anggota';
@@ -76,7 +76,6 @@ ROUTES.pendaftar=el=>{
   window.unsetJabatan=id=>{const a=ANGGOTA.find(x=>x.id_anggota===id);if(!a)return;a.jabatan='anggota';persist();showTab('pendaftar');showToast('Jabatan dilepas','success');};
 };
 
-/* Sesi */
 ROUTES.sesi=el=>{
   const r=CURRENT_USER.role_sistem;
   const ids=r==='pengurus'?[CURRENT_EKSKUL_CTX]:userEkskulIds(CURRENT_USER.id_user);
@@ -88,7 +87,7 @@ ROUTES.sesi=el=>{
     ${ids.length>1?`<div class="card mb-5"><div class="card-body flex flex-wrap gap-2 items-center">
       <span class="field-label" style="margin:0">Ekskul:</span>
       ${ids.map(id=>{const x=ekskulById(id);return x?`<button onclick="switchSesiEks('${id}')" class="chip ${id===idEks?'chip-ok':''}" style="cursor:pointer;border:none;padding:6px 12px;">${esc(x.nama_ekskul)}</button>`:''}).join('')}</div></div>`:''}
-    <div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Sesi Latihan — ${esc(e.nama_ekskul)}</h2>
+    <div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Sesi Latihan — ${esc(e.nama_ekskul)}</h2>
       ${aktifSesi?`<span class="chip chip-ok">Terbuka</span>`:`<span class="chip">Belum ada</span>`}</div>
     <div class="card-body">${aktifSesi?renderSesiAktif(aktifSesi,idEks):renderBukaSesi(idEks)}</div></div>`;
   window.switchSesiEks=id=>{CURRENT_EKSKUL_CTX=id;showTab('sesi');};
@@ -110,7 +109,7 @@ function renderSesiAktif(j,idEks){
   return `<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
     <div>
       <div class="text-center mb-3"><p class="text-xs uppercase" style="color:var(--text-dim)">Kode Sesi</p>
-        <p class="font-display text-4xl tracking-widest" style="color:var(--gold)">${esc(j.sesi_code)}</p></div>
+        <p class="font-display text-4xl tracking-widest" style="color:var(--text)">${esc(j.sesi_code)}</p></div>
       <div class="text-center"><div class="qr-box" id="qr-box"></div>
         <p class="text-xs mt-2" style="color:var(--text-dim)">Murid scan pakai HP</p></div>
       <div class="grid grid-cols-3 gap-2 mt-4 text-center">
@@ -165,7 +164,7 @@ function afterRenderSesi(){
 ROUTES.jurnal=el=>{
   const ids=CURRENT_USER.role_sistem==='pengurus'?[CURRENT_EKSKUL_CTX]:userEkskulIds(CURRENT_USER.id_user);
   const list=JURNAL.filter(j=>ids.includes(j.id_ekskul)).sort((a,b)=>(b.tanggal||'').localeCompare(a.tanggal||''));
-  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Jurnal Kegiatan</h2><span class="chip">${list.length}</span></div>
+  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Jurnal Kegiatan</h2><span class="chip">${list.length}</span></div>
     <div class="overflow-x-auto custom-scrollbar"><table><thead><tr><th>Tanggal</th><th>Ekskul</th><th>Materi</th><th>Foto</th><th>Status</th></tr></thead>
     <tbody>${list.length?list.map(j=>{const e=ekskulById(j.id_ekskul);
       return `<tr><td>${new Date(j.tanggal+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</td>
@@ -179,15 +178,15 @@ ROUTES.izin=el=>{
   const ids=r==='pengurus'?[CURRENT_EKSKUL_CTX]:userEkskulIds(CURRENT_USER.id_user);
   const jIds=JURNAL.filter(j=>ids.includes(j.id_ekskul)).map(j=>j.id_pertemuan);
   const pend=PRESENSI.filter(p=>jIds.includes(p.id_pertemuan)&&(p.status==='izin_pending'||p.status==='sakit_pending'));
-  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Persetujuan Izin/Sakit</h2><span class="chip">${pend.length}</span></div>
+  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Persetujuan Izin/Sakit</h2><span class="chip">${pend.length}</span></div>
     <div class="overflow-x-auto custom-scrollbar"><table><thead><tr><th>Tanggal</th><th>Ekskul</th><th>Murid</th><th>Jenis</th><th style="text-align:center;">Aksi</th></tr></thead>
     <tbody>${pend.length?pend.map(p=>{const j=JURNAL.find(x=>x.id_pertemuan===p.id_pertemuan),u=userById(p.id_user),e=j?ekskulById(j.id_ekskul):null;if(!u||!j)return '';
       return `<tr><td>${new Date(j.tanggal+'T00:00:00').toLocaleDateString('id-ID')}</td><td><span class="chip">${esc(e?e.nama_ekskul:'-')}</span></td>
       <td class="font-semibold">${esc(u.nama_lengkap)}</td>
       <td><span class="chip ${p.status.startsWith('izin')?'chip-warn':'chip-info'}">${p.status.startsWith('izin')?'Izin':'Sakit'}</span></td>
       <td class="text-center"><div class="flex gap-1 justify-center">
-        <button onclick="approveIzin('${p.id_presensi}',true)" class="btn btn-success" style="padding:5px 12px;font-size:12px;">✓</button>
-        <button onclick="approveIzin('${p.id_presensi}',false)" class="btn btn-danger" style="padding:5px 12px;font-size:12px;">✕</button>
+        <button onclick="approveIzin('${p.id_presensi}',true)" class="btn btn-success" style="padding:5px 12px;font-size:12px;">Setujui</button>
+        <button onclick="approveIzin('${p.id_presensi}',false)" class="btn btn-danger" style="padding:5px 12px;font-size:12px;">Tolak</button>
       </div></td></tr>`;}).join(''):`<tr><td colspan="5" class="text-center" style="padding:24px;color:var(--text-dim)">Kosong.</td></tr>`}</tbody></table></div></div>`;
   window.approveIzin=(id,ok)=>{const p=PRESENSI.find(x=>x.id_presensi===id);if(!p)return;
     if(ok){p.status=p.status.replace('_pending','');p.approved=true;}else{p.status='alpa';p.approved=true;}
@@ -197,7 +196,7 @@ ROUTES.izin=el=>{
 ROUTES.profil=el=>{
   const e=ekskulById(CURRENT_EKSKUL_CTX);
   if(!e)return el.innerHTML=`<div class="card"><div class="card-body text-center py-10" style="color:var(--text-dim)">Belum ditugaskan.</div></div>`;
-  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Profil Ekskul</h2></div>
+  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Profil Ekskul</h2></div>
     <div class="card-body grid grid-cols-1 sm:grid-cols-2 gap-3.5">
       <div><label class="field-label">Nama</label><input id="pf-nama" class="field-input" value="${esc(e.nama_ekskul)}"></div>
       <div><label class="field-label">Jadwal</label><input id="pf-jadwal" class="field-input" value="${esc(e.jadwal_rutin||'')}"></div>
