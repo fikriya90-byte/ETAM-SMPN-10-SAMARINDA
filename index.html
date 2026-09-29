@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="id" class="h-full" data-theme="dark">
+<html lang="id" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Ekskul Etam — Ekstrakurikuler Terpadu Absensi Murid</title>
 
-<!-- Library eksternal -->
+<!-- Tailwind: untuk utility classes yang dipakai JS -->
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- QR & Scanner -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<!-- Font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Style lokal (tema + komponen) -->
-<link rel="stylesheet" href="css/style.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
-<!-- ================= LOGIN / REGISTER ================= -->
+<!-- ================= LOGIN ================= -->
 <div id="login-screen">
   <div class="login-card animate-fade-in">
-    <div class="text-center mb-6">
+    <div class="login-head">
       <div class="logo-row">
         <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
         <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img" onerror="this.style.display='none'">
@@ -104,7 +106,6 @@
 
 <!-- ================= APP ================= -->
 <div id="app" class="hidden min-h-full w-full">
-
   <header class="app-header">
     <div class="header-inner">
       <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
@@ -123,8 +124,7 @@
         </button>
         <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
         <button type="button" onclick="logout()" class="btn-icon btn-dark" title="Keluar">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <path d="M16 17l5-5-5-5M21 12H9"/>
           </svg>
@@ -147,7 +147,6 @@
 <div id="modal-root"></div>
 <div id="print-area"></div>
 
-<!-- Local JS (urutan WAJIB) -->
 <script src="js/config.js"></script>
 <script src="js/helpers.js"></script>
 <script src="js/auth.js"></script>
