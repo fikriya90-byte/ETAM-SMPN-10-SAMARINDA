@@ -7,7 +7,7 @@ ROUTES.laporan=el=>{
   const opts=r==='admin'?EKSKUL:(r==='pengurus'?[ekskulById(CURRENT_EKSKUL_CTX)].filter(Boolean):userEkskulIds(CURRENT_USER.id_user).map(id=>ekskulById(id)).filter(Boolean));
   const def=CURRENT_EKSKUL_CTX||(opts[0]&&opts[0].id_ekskul)||'';
   el.innerHTML=`
-    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Laporan</h2></div>
+    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Laporan</h2></div>
     <div class="card-body grid grid-cols-1 sm:grid-cols-3 gap-3.5">
       <div><label class="field-label">Ekskul</label><select id="rep-ekskul" class="field-input">${opts.map(e=>`<option value="${e.id_ekskul}" ${e.id_ekskul===def?'selected':''}>${esc(e.nama_ekskul)}</option>`).join('')}</select></div>
       <div><label class="field-label">Bulan</label><select id="rep-bulan" class="field-input">${BULAN.slice(0,6).map(b=>`<option>${b}</option>`).join('')}</select></div>
@@ -16,7 +16,7 @@ ROUTES.laporan=el=>{
       <button onclick="previewLaporan()" class="btn btn-primary">Preview</button>
       <button onclick="printLaporan()" class="btn btn-blue">Print</button>
       <button onclick="downloadLaporan()" class="btn btn-dark">.doc</button></div></div>
-    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--gold)">Preview</h3></div>
+    <div class="card"><div class="card-header"><h3 class="font-display text-lg" style="color:var(--text)">Preview</h3></div>
       <div class="card-body overflow-auto custom-scrollbar" style="background:var(--surface-2)">
         <div id="laporan-preview" class="bg-white text-black mx-auto shadow-2xl" style="width:210mm;min-height:297mm;padding:15mm;font-family:'Times New Roman',serif;"></div></div></div>`;
   previewLaporan();
