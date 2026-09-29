@@ -1,18 +1,20 @@
 /* =====================================================================
-   auth.js — Login dengan pilihan role (Siswa / Guru-Pelatih / Admin)
+   auth.js — Login dengan pilihan role
+   + event delegation agar klik tab selalu terdeteksi
    ===================================================================== */
 
 let loginRole = 'murid';
 
 /* ---------- Pilih role ---------- */
 function selectLoginRole(role){
+  if (!role) return;
   loginRole = role;
 
   document.querySelectorAll('.role-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.role === role);
   });
 
-  const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
+  const labels = { murid: 'Siswa', guru: 'Guru / Pelatih', admin: 'Admin' };
   const hintEl = document.getElementById('login-role-hint');
   if (hintEl) hintEl.innerHTML = 'Masuk sebagai <b>' + labels[role] + '</b>';
 
@@ -22,12 +24,15 @@ function selectLoginRole(role){
   const err = document.getElementById('login-error');
   if (err) err.classList.add('hidden');
 }
+window.selectLoginRole = selectLoginRole;
 
 /* ---------- Switch view ---------- */
 function openRegister(){
   document.getElementById('view-login').classList.add('hidden');
   document.getElementById('view-register').classList.remove('hidden');
 }
+window.openRegister = openRegister;
+
 function closeRegister(){
   document.getElementById('view-register').classList.add('hidden');
   document.getElementById('view-login').classList.remove('hidden');
@@ -36,6 +41,7 @@ function closeRegister(){
   if (re) re.classList.add('hidden');
   if (ri) ri.classList.add('hidden');
 }
+window.closeRegister = closeRegister;
 
 /* ---------- Login ---------- */
 function handleLogin(ev){
@@ -58,7 +64,7 @@ function handleLogin(ev){
     admin: ['admin']
   };
   if (!roleMap[loginRole].includes(u.role_sistem)) {
-    const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
+    const labels = { murid: 'Siswa', guru: 'Guru / Pelatih', admin: 'Admin' };
     return fail('Akun ini bukan akun ' + labels[loginRole] + '. Pilih tipe akun yang sesuai.');
   }
 
@@ -86,8 +92,9 @@ function handleLogin(ev){
   document.getElementById('login-password').value = '';
   enterApp();
 }
+window.handleLogin = handleLogin;
 
-/* ---------- Register (siswa) ---------- */
+/* ---------- Register ---------- */
 function handleRegister(ev){
   ev.preventDefault();
   const name  = document.getElementById('reg-name').value.trim();
@@ -125,12 +132,14 @@ function handleRegister(ev){
 
   setTimeout(() => { closeRegister(); selectLoginRole('murid'); }, 1800);
 }
+window.handleRegister = handleRegister;
 
 /* ---------- Kompatibilitas ---------- */
 function switchAuth(w){
   if (w === 'register') openRegister();
   else closeRegister();
 }
+window.switchAuth = switchAuth;
 
 /* ---------- Logout ---------- */
 function logout(){
@@ -144,6 +153,7 @@ function logout(){
   closeRegister();
   selectLoginRole('murid');
 }
+window.logout = logout;
 
 /* ---------- Enter App ---------- */
 function enterApp(){
@@ -152,10 +162,37 @@ function enterApp(){
   renderNav();
   showTab(NAV[CURRENT_USER.role_sistem][0].key);
 }
+window.enterApp = enterApp;
 
-/* ---------- Init ---------- */
-document.addEventListener('DOMContentLoaded', () => {
+/* =====================================================================
+   EVENT DELEGATION — jaring pengaman agar klik selalu terdeteksi
+   (bekerja walau onclick di HTML bermasalah / diblokir)
+   ===================================================================== */
+document.addEventListener('click', function(e){
+  // Tab role
+  const roleTab = e.target.closest('.role-tab');
+  if (roleTab && roleTab.dataset.role) {
+    selectLoginRole(roleTab.dataset.role);
+    return;
+  }
+
+  // Link buka register
+  const regLink = e.target.closest('.login-register a');
+  if (regLink) {
+    e.preventDefault();
+    openRegister();
+    return;
+  }
+}, false);
+
+/* ---------- Init saat DOM siap ---------- */
+function __etamAuthInit(){
   selectLoginRole('murid');
   const y = document.getElementById('brand-year');
   if (y) y.textContent = new Date().getFullYear();
-});
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', __etamAuthInit);
+} else {
+  __etamAuthInit();
+}
