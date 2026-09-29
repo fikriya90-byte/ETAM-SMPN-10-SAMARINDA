@@ -1,61 +1,124 @@
 /* =====================================================================
-   auth.js — Login, register, logout
+   auth.js — Login konvensional (email + password)
+   Role otomatis terdeteksi dari akun
    ===================================================================== */
 
-function switchAuth(w){
-  const l=w==='login';
-  $('#tab-login').classList.toggle('active',l);
-  $('#tab-register').classList.toggle('active',!l);
-  $('#form-login').classList.toggle('hidden',!l);
-  $('#form-register').classList.toggle('hidden',l);
-  $('#login-error').classList.add('hidden');
+/* ---------- Switch Login <-> Register view ---------- */
+function openRegister(){
+  document.getElementById('view-login').classList.add('hidden');
+  document.getElementById('view-register').classList.remove('hidden');
 }
-function onRegRoleChange(){$('#reg-kelas-wrap').classList.toggle('hidden',$('#reg-role').value!=='murid')}
+function closeRegister(){
+  document.getElementById('view-register').classList.add('hidden');
+  document.getElementById('view-login').classList.remove('hidden');
+  document.getElementById('reg-error').classList.add('hidden');
+  document.getElementById('reg-info').classList.add('hidden');
+}
 
+/* ---------- Login ---------- */
 function handleLogin(ev){
   ev.preventDefault();
-  const email=$('#login-email').value.trim().toLowerCase(),pwd=$('#login-password').value,err=$('#login-error');
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const pwd   = document.getElementById('login-password').value;
+  const err   = document.getElementById('login-error');
   err.classList.add('hidden');
-  const u=USERS.find(x=>x.email.toLowerCase()===email);
-  const fail=m=>{err.textContent=m;err.classList.remove('hidden')};
-  if(!u)return fail('Email tidak terdaftar');
-  if(u.password!==hashPwd(pwd))return fail('Password salah');
-  if(!u.active)return fail('Akun dinonaktifkan / belum diverifikasi');
-  if((u.role_sistem==='guru'||u.role_sistem==='pelatih')&&PEMBINA.some(p=>p.id_user===u.id_user&&p.status_akun==='pending'))
-    return fail('Menunggu verifikasi Admin');
-  CURRENT_USER=u;
-  if(u.role_sistem==='murid'){
-    const a=ANGGOTA.find(x=>x.id_user===u.id_user&&x.jabatan!=='anggota'&&x.status_anggota==='aktif');
-    if(a){CURRENT_USER.role_sistem='pengurus';CURRENT_USER._jabatan=a.jabatan;CURRENT_EKSKUL_CTX=a.id_ekskul;}
+
+  const fail = m => { err.textContent = m; err.classList.remove('hidden'); };
+
+  const u = USERS.find(x => x.email.toLowerCase() === email);
+  if (!u) return fail('Email tidak terdaftar');
+  if (u.password !== hashPwd(pwd)) return fail('Password salah');
+  if (!u.active) return fail('Akun belum diverifikasi / dinonaktifkan');
+
+  if ((u.role_sistem === 'guru' || u.role_sistem === 'pelatih') &&
+      PEMBINA.some(p => p.id_user === u.id_user && p.status_akun === 'pending')) {
+    return fail('Akun Anda menunggu verifikasi Admin');
   }
-  localStorage.setItem('etam_session',u.email);
-  $('#login-email').value='';$('#login-password').value='';
+
+  CURRENT_USER = u;
+
+  // Cek apakah murid ini sebenarnya pengurus ekskul
+  if (u.role_sistem === 'murid') {
+    const a = ANGGOTA.find(x =>
+      x.id_user === u.id_user &&
+      x.jabatan !== 'anggota' &&
+      x.status_anggota === 'aktif'
+    );
+    if (a) {
+      CURRENT_USER.role_sistem = 'pengurus';
+      CURRENT_USER._jabatan = a.jabatan;
+      CURRENT_EKSKUL_CTX = a.id_ekskul;
+    }
+  }
+
+  localStorage.setItem('etam_session', u.email);
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
   enterApp();
 }
 
+/* ---------- Register (hanya siswa) ---------- */
 function handleRegister(ev){
   ev.preventDefault();
-  const name=$('#reg-name').value.trim(),email=$('#reg-email').value.trim().toLowerCase();
-  const wa=$('#reg-wa').value.trim(),role=$('#reg-role').value;
-  const kelas=role==='murid'?$('#reg-kelas').value:null,pwd=$('#reg-password').value;
-  const err=$('#reg-error'),info=$('#reg-info');err.classList.add('hidden');info.classList.add('hidden');
-  const fail=m=>{err.textContent=m;err.classList.remove('hidden')};
-  if(USERS.some(u=>u.email.toLowerCase()===email))return fail('Email sudah terdaftar');
-  if(role==='murid'&&!kelas)return fail('Pilih kelas');
-  const nu={id_user:uid('u'),nama_lengkap:name,email,password:hashPwd(pwd),no_wa:wa,role_sistem:role,kelas,active:role==='murid',created_at:new Date().toISOString()};
+  const name  = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim().toLowerCase();
+  const wa    = document.getElementById('reg-wa').value.trim();
+  const kelas = document.getElementById('reg-kelas').value;
+  const pwd   = document.getElementById('reg-password').value;
+  const err   = document.getElementById('reg-error');
+  const info  = document.getElementById('reg-info');
+  err.classList.add('hidden');
+  info.classList.add('hidden');
+
+  const fail = m => { err.textContent = m; err.classList.remove('hidden'); };
+
+  if (USERS.some(u => u.email.toLowerCase() === email)) return fail('Email sudah terdaftar');
+  if (!kelas) return fail('Pilih kelas');
+
+  const nu = {
+    id_user: uid('u'),
+    nama_lengkap: name,
+    email,
+    password: hashPwd(pwd),
+    no_wa: wa,
+    role_sistem: 'murid',
+    kelas,
+    active: true,
+    created_at: new Date().toISOString()
+  };
   USERS.push(nu);
-  info.textContent=role==='murid'?'Pendaftaran berhasil. Silakan login.':'Pendaftaran berhasil. Tunggu verifikasi Admin.';
-  info.classList.remove('hidden');persist();$('#form-register').reset();onRegRoleChange();
+  persist();
+
+  info.textContent = 'Pendaftaran berhasil! Silakan login.';
+  info.classList.remove('hidden');
+  document.getElementById('form-register').reset();
+
+  setTimeout(closeRegister, 1800);
 }
 
+/* ---------- Kompatibilitas dengan kode lama ---------- */
+function switchAuth(w){
+  if (w === 'register') openRegister();
+  else closeRegister();
+}
+function selectLoginRole(){ /* no-op, role auto-detect */ }
+
+/* ---------- Logout ---------- */
 function logout(){
-  if(!confirm('Keluar?'))return;
-  stopQRScan();localStorage.removeItem('etam_session');
-  CURRENT_USER=null;CURRENT_EKSKUL_CTX=null;
-  $('#login-screen').style.display='flex';$('#app').classList.add('hidden');switchAuth('login');
+  if (!confirm('Keluar dari akun ini?')) return;
+  if (typeof stopQRScan === 'function') stopQRScan();
+  localStorage.removeItem('etam_session');
+  CURRENT_USER = null;
+  CURRENT_EKSKUL_CTX = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').classList.add('hidden');
+  closeRegister();
 }
 
+/* ---------- Masuk ke aplikasi ---------- */
 function enterApp(){
-  $('#login-screen').style.display='none';$('#app').classList.remove('hidden');
-  renderNav();showTab(NAV[CURRENT_USER.role_sistem][0].key);
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').classList.remove('hidden');
+  renderNav();
+  showTab(NAV[CURRENT_USER.role_sistem][0].key);
 }
