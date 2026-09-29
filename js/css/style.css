@@ -1,0 +1,424 @@
+/* =====================================================================
+   EKSKUL ETAM — Style Sheet
+   ===================================================================== */
+
+:root{
+  --gold:#E8B505;
+  --gold-soft:#FFD700;
+  --red:#DC2626;
+  --green:#16A34A;
+  --blue:#2563EB;
+}
+
+/* ---------- THEME ---------- */
+html[data-theme=dark]{
+  --bg:#0B0B0D; --bg-elev:#131317;
+  --surface:#16161A; --surface-2:#1E1E23; --surface-3:#23232A;
+  --border:#2A2A30; --border-strong:#3A3A42;
+  --text:#F3F4F6; --text-muted:#9CA3AF; --text-dim:#6B7280;
+  --overlay:rgba(0,0,0,.75);
+  --shadow:0 4px 20px -8px rgba(0,0,0,.6);
+}
+html[data-theme=light]{
+  --bg:#F2F3F5; --bg-elev:#FFF;
+  --surface:#FFF; --surface-2:#F8F9FB; --surface-3:#EFF1F4;
+  --border:#E3E5E9; --border-strong:#D1D5DB;
+  --text:#111827; --text-muted:#4B5563; --text-dim:#9CA3AF;
+  --gold:#B8860B; --gold-soft:#E8B505;
+  --overlay:rgba(15,15,20,.55);
+  --shadow:0 4px 20px -8px rgba(0,0,0,.12);
+}
+
+/* ---------- BASE ---------- */
+*{box-sizing:border-box}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.font-display{font-family:'Playfair Display',serif}
+.brand-etam{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  letter-spacing:.14em;
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold),#B8860B);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+/* ---------- HEADER ---------- */
+.app-header{
+  background:var(--bg-elev);
+  border-bottom:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+.app-header::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0 16px,rgba(232,181,5,.035) 16px 17px,transparent 17px 32px),
+    repeating-linear-gradient(-45deg,transparent 0 16px,rgba(220,38,38,.025) 16px 17px,transparent 17px 32px);
+  pointer-events:none;
+}
+.app-header > *{position:relative}
+.logo-img{width:52px;height:52px;object-fit:contain;flex-shrink:0}
+@media(max-width:480px){.logo-img{width:44px;height:44px}}
+
+/* ---------- CARDS ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+}
+.card-header{
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.card-body{padding:18px}
+
+/* ---------- FORM ---------- */
+.field-label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:6px;
+}
+.field-input{
+  width:100%;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:9px 12px;
+  color:var(--text);
+  font-size:14px;
+  outline:none;
+  font-family:inherit;
+}
+.field-input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(232,181,5,.15);
+}
+.field-input:disabled{opacity:.55}
+
+/* ---------- BUTTONS ---------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:9px 14px;
+  border-radius:9px;
+  font-size:13.5px;
+  font-weight:600;
+  cursor:pointer;
+  border:1px solid transparent;
+  font-family:inherit;
+  white-space:nowrap;
+}
+.btn-primary{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#0B0B0D}
+.btn-dark{background:var(--surface-2);color:var(--text);border-color:var(--border)}
+.btn-success{background:linear-gradient(135deg,#10B981,#059669);color:#fff}
+.btn-danger{background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff}
+.btn-blue{background:linear-gradient(135deg,#3B82F6,#2563EB);color:#fff}
+.btn-purple{background:linear-gradient(135deg,#8B5CF6,#6D28D9);color:#fff}
+.btn-icon{padding:8px;width:38px;height:38px;border-radius:9px}
+
+/* ---------- TAB NAV ---------- */
+.tab-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 14px;
+  border-radius:9px;
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--text-muted);
+  background:transparent;
+  border:1px solid transparent;
+  white-space:nowrap;
+  cursor:pointer;
+  font-family:inherit;
+}
+.tab-btn:hover{color:var(--text);background:var(--surface-2)}
+.tab-btn.active{
+  color:#0B0B0D;
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+}
+@media(max-width:640px){
+  .tab-btn{padding:7px 11px;font-size:12.5px}
+}
+
+/* ---------- TABLES ---------- */
+table{border-collapse:separate;border-spacing:0;width:100%}
+thead th{
+  background:var(--surface-2);
+  color:var(--gold);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  padding:11px 13px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+tbody td{
+  padding:11px 13px;
+  font-size:13px;
+  border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--surface-2)}
+
+/* ---------- BADGES ---------- */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:28px;
+  padding:3px 9px;
+  border-radius:6px;
+  font-size:11.5px;
+  font-weight:800;
+}
+.badge-H{background:#16A34A;color:#fff}
+.badge-S{background:#2563EB;color:#fff}
+.badge-I{background:#CA8A04;color:#0B0B0D}
+.badge-A{background:#DC2626;color:#fff}
+.badge-P{background:#7C3AED;color:#fff}
+
+/* ---------- CHIPS ---------- */
+.chip{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:600;
+  background:var(--surface-3);
+  color:var(--text-muted);
+}
+.chip-ok{background:rgba(74,222,128,.15);color:#4ADE80}
+.chip-warn{background:rgba(251,191,36,.15);color:#FBBF24}
+.chip-no{background:rgba(248,113,113,.15);color:#F87171}
+.chip-info{background:rgba(96,165,250,.15);color:#60A5FA}
+
+/* ---------- SCROLLBAR ---------- */
+.custom-scrollbar::-webkit-scrollbar{width:8px;height:8px}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.animate-fade-in{animation:fadeIn .25s ease forwards}
+
+@keyframes slideIn{
+  from{transform:translateX(20px);opacity:0}
+  to{transform:translateX(0);opacity:1}
+}
+.toast{animation:slideIn .25s ease forwards}
+
+/* ---------- LOGIN SCREEN ---------- */
+#login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:var(--bg);
+  position:relative;
+}
+#login-screen::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0 24px,rgba(232,181,5,.05) 24px 25px,transparent 25px 48px),
+    repeating-linear-gradient(-45deg,transparent 0 24px,rgba(220,38,38,.04) 24px 25px,transparent 25px 48px);
+  pointer-events:none;
+}
+.login-card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:30px 26px;
+  max-width:480px;
+  width:100%;
+  box-shadow:0 20px 60px -20px rgba(0,0,0,.4);
+}
+.auth-tabs{
+  display:flex;
+  gap:6px;
+  padding:5px;
+  background:var(--surface-2);
+  border-radius:11px;
+  margin-bottom:20px;
+  border:1px solid var(--border);
+}
+.auth-tab{
+  flex:1;
+  padding:9px;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  border-radius:8px;
+  cursor:pointer;
+  color:var(--text-muted);
+  background:transparent;
+  border:none;
+  font-family:inherit;
+}
+.auth-tab.active{
+  background:linear-gradient(135deg,var(--gold-soft),var(--gold));
+  color:#0B0B0D;
+}
+
+/* ---------- THEME TOGGLE ---------- */
+.theme-toggle-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 11px;
+  border-radius:9px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+/* ---------- ROLE BADGE ---------- */
+.role-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 12px;
+  border-radius:9px;
+  background:linear-gradient(135deg,rgba(232,181,5,.15),rgba(232,181,5,.05));
+  border:1px solid rgba(232,181,5,.35);
+  color:var(--gold);
+  font-size:12px;
+  font-weight:700;
+}
+
+/* ---------- MODAL ---------- */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:var(--overlay);
+  backdrop-filter:blur(4px);
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+/* ---------- PRINT ---------- */
+#print-area{display:none}
+@media print{
+  body > *{display:none !important}
+  body > #print-area{display:block !important}
+  @page{size:A4;margin:1.2cm}
+  html,body{background:#fff !important;color:#000 !important}
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:640px){
+  .card-header{padding:12px 14px}
+  .card-body{padding:14px}
+  .hide-mobile{display:none !important}
+}
+
+/* ---------- QR ---------- */
+.qr-box{
+  padding:16px;
+  background:#fff;
+  border-radius:14px;
+  display:inline-block;
+}
+#qr-reader{
+  width:100%;
+  max-width:420px;
+  margin:0 auto;
+  border-radius:14px;
+  overflow:hidden;
+}
+#qr-reader video{border-radius:12px}
+
+/* ---------- STAT CARDS ---------- */
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.stat-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:4px;
+  height:100%;
+}
+.stat-h::before{background:#16A34A}
+.stat-s::before{background:#2563EB}
+.stat-i::before{background:#CA8A04}
+.stat-a::before{background:#DC2626}
+.stat-cash::before{background:var(--gold)}
+.stat-p::before{background:#8B5CF6}
+
+/* ---------- MATRIKS BAYAR ---------- */
+.cell-bayar{
+  width:38px;
+  height:38px;
+  border-radius:8px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  border:1.5px solid transparent;
+  transition:all .12s;
+  font-family:inherit;
+}
+.cell-bayar:hover{transform:translateY(-1px)}
+.cell-belum{
+  background:rgba(248,113,113,.12);
+  color:#F87171;
+  border-color:rgba(248,113,113,.3);
+}
+.cell-sudah{
+  background:#16A34A;
+  color:#fff;
+  border-color:#16A34A;
+}
+.cell-bayar-mini{width:32px;height:32px;font-size:12px}
+@media(max-width:640px){
+  .cell-bayar{width:34px;height:34px;font-size:13px}
+  .cell-bayar-mini{width:28px;height:28px;font-size:11px}
+}
