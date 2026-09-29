@@ -300,3 +300,19 @@ function renderKasPengelola(el,idEksFokus){
             <div class="flex justify-between items-center gap-2">
               <div><p class="font-semibold text-sm">${esc(r.u.nama_lengkap)} <span class="text-xs" style="color:var(--text-dim)">(${esc(r.u.kelas||'-')})</span></p>
               <p class="text-xs mt-0.5" style="color:#F87171">Belum: ${r.belum.map(p=>p.label).join(', ')}</p></div>
+              <p class="font-display text-lg" style="color:#F87171">${fmtRp(r.kurang)}</p>
+            </div></div>`).join('')}</div>`:'<p class="text-sm text-center py-6" style="color:var(--text-dim)">Semua sudah bayar ✓</p>'}
+        </div></div></div>`;
+  };
+  window.exportKasCSV=idEks=>{
+    const e=ekskulById(idEks);if(!e)return;
+    const cfg=getIuranCfg(idEks);
+    const periodeList=getPeriodeList(idEks,bulan,KAS_TAHUN);
+    const anggota=anggotaAktifOf(idEks);
+    const r=[['Nama','Kelas',...periodeList.map(p=>p.label),'Total','Kurang']];
+    anggota.forEach(a=>{const u=userById(a.id_user);if(!u)return;let sudah=0;
+      const cells=periodeList.map(p=>{const b=findBayar(a.id_user,idEks,bulan,KAS_TAHUN,p.label);if(b)sudah+=Number(b.jumlah||0);return b?'✓':'';});
+      r.push([u.nama_lengkap,u.kelas||'',...cells,sudah,periodeList.length*cfg.jumlah-sudah]);});
+    downloadCSV(r,`ETAM_Kas_${e.nama_ekskul}_${bulan}_${KAS_TAHUN}.csv`);
+  };
+}
