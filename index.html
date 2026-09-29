@@ -33,32 +33,8 @@
       <p class="brand-slogan">"Presensi Terpadu, Aktivitas Ekskul Terpadu"</p>
     </div>
 
-    <!-- VIEW LOGIN -->
+    <!-- ============ VIEW LOGIN ============ -->
     <div id="view-login">
-      <p class="role-section-label">Masuk Sebagai</p>
-      <div class="role-tabs">
-        <button type="button" class="role-tab active" data-role="murid" onclick="selectLoginRole('murid')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
-          </svg>
-          <span>Siswa</span>
-        </button>
-        <button type="button" class="role-tab" data-role="guru" onclick="selectLoginRole('guru')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-          </svg>
-          <span>Pelatih /<br>Pembina</span>
-        </button>
-        <button type="button" class="role-tab" data-role="admin" onclick="selectLoginRole('admin')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
-          </svg>
-          <span>Admin</span>
-        </button>
-      </div>
-
-      <p class="role-hint" id="login-role-hint">Masuk sebagai <b>Siswa</b></p>
-
       <form id="form-login" onsubmit="handleLogin(event)">
         <div class="field-group">
           <label class="field-label" for="login-email">Email</label>
@@ -66,16 +42,15 @@
         </div>
         <div class="field-group">
           <label class="field-label" for="login-password">Password</label>
-          <input type="password" id="login-password" class="field-input" placeholder="Password" autocomplete="current-password" required>
+          <input type="password" id="login-password" class="field-input" placeholder="Masukkan password" autocomplete="current-password" required>
         </div>
         <div id="login-error" class="alert alert-error hidden"></div>
         <button type="submit" class="btn btn-primary btn-block">Masuk</button>
-        <p class="demo-hint" id="login-demo">Demo: <b>murid@etam.id</b> / <b>murid123</b></p>
       </form>
 
       <div class="login-register" id="login-register-row">
-        <span>Belum punya akun siswa?</span>
-        <a onclick="openRegister()">Daftar di sini</a>
+        <span>Belum punya akun?</span>
+        <a onclick="openRegister()">Daftar sebagai Siswa</a>
       </div>
 
       <div class="login-footer">
@@ -88,6 +63,53 @@
         </button>
       </div>
     </div>
+
+    <!-- ============ VIEW REGISTER ============ -->
+    <div id="view-register" class="hidden">
+      <button type="button" class="back-btn" onclick="closeRegister()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Kembali ke Login
+      </button>
+
+      <h2 class="register-title">Daftar Akun Siswa</h2>
+      <p class="register-subtitle">Isi data berikut untuk mendaftar ke ekstrakurikuler.</p>
+
+      <form id="form-register" onsubmit="handleRegister(event)">
+        <div class="field-group">
+          <label class="field-label" for="reg-name">Nama Lengkap</label>
+          <input type="text" id="reg-name" class="field-input" placeholder="Nama lengkap" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="reg-email">Email</label>
+          <input type="email" id="reg-email" class="field-input" placeholder="nama@email.com" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="reg-wa">No. WhatsApp</label>
+          <input type="tel" id="reg-wa" class="field-input" placeholder="08xx" required>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="reg-kelas">Kelas</label>
+          <select id="reg-kelas" class="field-input" required>
+            <option value="">Pilih Kelas</option>
+            <option>7A</option><option>7B</option><option>7C</option><option>7D</option><option>7E</option>
+            <option>7F</option><option>7G</option><option>7H</option><option>7I</option><option>7J</option>
+            <option>8A</option><option>8B</option><option>9A</option><option>9B</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="reg-password">Password</label>
+          <input type="password" id="reg-password" class="field-input" placeholder="Min 6 karakter" required minlength="6">
+        </div>
+        <div id="reg-error" class="alert alert-error hidden"></div>
+        <div id="reg-info" class="alert alert-info hidden"></div>
+        <button type="submit" class="btn btn-primary btn-block">Daftar Sekarang</button>
+      </form>
+    </div>
+
+  </div>
+</div>
 
     <!-- VIEW REGISTER -->
     <div id="view-register" class="hidden">
