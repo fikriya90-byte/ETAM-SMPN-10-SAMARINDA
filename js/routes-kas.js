@@ -226,4 +226,11 @@ function renderKasPengelola(el,idEksFokus){
         </div></div></div>`;
   };
   window.exportKasCSV=idEks=>{
-    const e=ekskul
+    const e=ekskulById(idEks);const ptm=getPertemuanClosed(idEks);const anggota=anggotaAktifOf(idEks);
+    const r=[['Nama','Kelas',...ptm.map(p=>new Date(p.tanggal+'T00:00:00').toLocaleDateString('id-ID')),'Total']];
+    anggota.forEach(a=>{const u=userById(a.id_user);if(!u)return;let sudah=0;
+      const cells=ptm.map(p=>{const b=getKasBayar(a.id_user,p.id_pertemuan);if(b)sudah++;return b?'✓':'';});
+      r.push([u.nama_lengkap,u.kelas||'',...cells,sudah]);});
+    downloadCSV(r,`ETAM_Kas_${e.nama_ekskul}.csv`);
+  };
+}
