@@ -1,9 +1,29 @@
 /* =====================================================================
-   auth.js — Login konvensional (email + password)
-   Role otomatis terdeteksi dari akun
+   auth.js — Login dengan pilihan role (Siswa / Guru-Pelatih / Admin)
    ===================================================================== */
 
-/* ---------- Switch Login <-> Register view ---------- */
+let loginRole = 'murid';
+
+/* ---------- Pilih role ---------- */
+function selectLoginRole(role){
+  loginRole = role;
+
+  document.querySelectorAll('.role-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.role === role);
+  });
+
+  const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
+  const hintEl = document.getElementById('login-role-hint');
+  if (hintEl) hintEl.innerHTML = 'Masuk sebagai <b>' + labels[role] + '</b>';
+
+  const regRow = document.getElementById('login-register-row');
+  if (regRow) regRow.style.display = role === 'murid' ? 'flex' : 'none';
+
+  const err = document.getElementById('login-error');
+  if (err) err.classList.add('hidden');
+}
+
+/* ---------- Switch view ---------- */
 function openRegister(){
   document.getElementById('view-login').classList.add('hidden');
   document.getElementById('view-register').classList.remove('hidden');
@@ -11,8 +31,10 @@ function openRegister(){
 function closeRegister(){
   document.getElementById('view-register').classList.add('hidden');
   document.getElementById('view-login').classList.remove('hidden');
-  document.getElementById('reg-error').classList.add('hidden');
-  document.getElementById('reg-info').classList.add('hidden');
+  const re = document.getElementById('reg-error');
+  const ri = document.getElementById('reg-info');
+  if (re) re.classList.add('hidden');
+  if (ri) ri.classList.add('hidden');
 }
 
 /* ---------- Login ---------- */
@@ -30,14 +52,22 @@ function handleLogin(ev){
   if (u.password !== hashPwd(pwd)) return fail('Password salah');
   if (!u.active) return fail('Akun belum diverifikasi / dinonaktifkan');
 
+  const roleMap = {
+    murid: ['murid', 'pengurus'],
+    guru:  ['guru', 'pelatih'],
+    admin: ['admin']
+  };
+  if (!roleMap[loginRole].includes(u.role_sistem)) {
+    const labels = { murid:'Siswa', guru:'Guru / Pelatih', admin:'Admin' };
+    return fail('Akun ini bukan akun ' + labels[loginRole] + '. Pilih tipe akun yang sesuai.');
+  }
+
   if ((u.role_sistem === 'guru' || u.role_sistem === 'pelatih') &&
       PEMBINA.some(p => p.id_user === u.id_user && p.status_akun === 'pending')) {
     return fail('Akun Anda menunggu verifikasi Admin');
   }
 
   CURRENT_USER = u;
-
-  // Cek apakah murid ini sebenarnya pengurus ekskul
   if (u.role_sistem === 'murid') {
     const a = ANGGOTA.find(x =>
       x.id_user === u.id_user &&
@@ -57,7 +87,7 @@ function handleLogin(ev){
   enterApp();
 }
 
-/* ---------- Register (hanya siswa) ---------- */
+/* ---------- Register (siswa) ---------- */
 function handleRegister(ev){
   ev.preventDefault();
   const name  = document.getElementById('reg-name').value.trim();
@@ -93,15 +123,14 @@ function handleRegister(ev){
   info.classList.remove('hidden');
   document.getElementById('form-register').reset();
 
-  setTimeout(closeRegister, 1800);
+  setTimeout(() => { closeRegister(); selectLoginRole('murid'); }, 1800);
 }
 
-/* ---------- Kompatibilitas dengan kode lama ---------- */
+/* ---------- Kompatibilitas ---------- */
 function switchAuth(w){
   if (w === 'register') openRegister();
   else closeRegister();
 }
-function selectLoginRole(){ /* no-op, role auto-detect */ }
 
 /* ---------- Logout ---------- */
 function logout(){
@@ -113,12 +142,20 @@ function logout(){
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app').classList.add('hidden');
   closeRegister();
+  selectLoginRole('murid');
 }
 
-/* ---------- Masuk ke aplikasi ---------- */
+/* ---------- Enter App ---------- */
 function enterApp(){
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').classList.remove('hidden');
   renderNav();
   showTab(NAV[CURRENT_USER.role_sistem][0].key);
 }
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  selectLoginRole('murid');
+  const y = document.getElementById('brand-year');
+  if (y) y.textContent = new Date().getFullYear();
+});
