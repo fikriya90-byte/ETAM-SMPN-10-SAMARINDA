@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="id" class="h-full" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ekskul Etam — Ekstrakurikuler Terpadu Absensi Murid</title>
+
+<!-- CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= AUTH SCREEN ================= -->
+<div id="login-screen">
+  <div class="login-card animate-fade-in">
+    <div class="text-center mb-5">
+      <div class="flex items-center justify-center gap-4 mb-3">
+        <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
+        <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img" onerror="this.style.display='none'">
+      </div>
+      <h1 class="brand-etam text-3xl sm:text-4xl">EKSKUL ETAM</h1>
+      <p class="text-xs sm:text-sm font-semibold mt-1">Ekstrakurikuler Terpadu Absensi Murid</p>
+      <p class="text-[11px] mt-1 italic" style="color:var(--gold)">"Presensi Terpadu, Aktivitas Ekskul Terpadu"</p>
+      <p class="text-[11px] mt-1.5" style="color:var(--text-muted)">UPT SMP Negeri 10 Samarinda</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuth('login')">Masuk</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuth('register')">Daftar</button>
+    </div>
+
+    <form id="form-login" onsubmit="handleLogin(event)" class="space-y-3.5">
+      <div>
+        <label class="field-label">Email</label>
+        <input type="email" id="login-email" class="field-input" autocomplete="username" required>
+      </div>
+      <div>
+        <label class="field-label">Password</label>
+        <input type="password" id="login-password" class="field-input" autocomplete="current-password" required>
+      </div>
+      <div id="login-error" class="hidden text-xs px-3 py-2 rounded-lg"
+           style="background:rgba(220,38,38,.12);color:#F87171;border:1px solid rgba(220,38,38,.3)"></div>
+      <button type="submit" class="btn btn-primary w-full" style="padding:11px">Masuk</button>
+      <div class="text-center text-xs" style="color:var(--text-dim)">
+        Demo: <b style="color:var(--gold)">admin@etam.id</b> / <b style="color:var(--gold)">admin123</b>
+      </div>
+    </form>
+
+    <form id="form-register" class="space-y-3.5 hidden" onsubmit="handleRegister(event)">
+      <div><label class="field-label">Nama Lengkap</label><input type="text" id="reg-name" class="field-input" required></div>
+      <div><label class="field-label">Email</label><input type="email" id="reg-email" class="field-input" required></div>
+      <div><label class="field-label">No. WhatsApp</label><input type="tel" id="reg-wa" class="field-input" required></div>
+      <div>
+        <label class="field-label">Daftar Sebagai</label>
+        <select id="reg-role" class="field-input" onchange="onRegRoleChange()" required>
+          <option value="murid">Murid</option>
+          <option value="guru">Guru Pembina</option>
+          <option value="pelatih">Pelatih</option>
+        </select>
+      </div>
+      <div id="reg-kelas-wrap">
+        <label class="field-label">Kelas</label>
+        <select id="reg-kelas" class="field-input">
+          <option value="">Pilih</option>
+          <option>7A</option><option>7B</option><option>7C</option><option>7D</option><option>7E</option>
+          <option>7F</option><option>7G</option><option>7H</option><option>7I</option><option>7J</option>
+          <option>8A</option><option>8B</option><option>9A</option><option>9B</option>
+        </select>
+      </div>
+      <div><label class="field-label">Password</label><input type="password" id="reg-password" class="field-input" required minlength="6"></div>
+      <div id="reg-error" class="hidden text-xs px-3 py-2 rounded-lg"
+           style="background:rgba(220,38,38,.12);color:#F87171;border:1px solid rgba(220,38,38,.3)"></div>
+      <div id="reg-info" class="hidden text-xs px-3 py-2 rounded-lg"
+           style="background:rgba(96,165,250,.12);color:#60A5FA;border:1px solid rgba(96,165,250,.3)"></div>
+      <button type="submit" class="btn btn-primary w-full" style="padding:11px">Daftar</button>
+    </form>
+
+    <div class="flex items-center justify-between pt-4 mt-4" style="border-top:1px solid var(--border)">
+      <p class="text-xs" style="color:var(--text-dim)">Tema tampilan</p>
+      <button type="button" class="theme-toggle-btn" onclick="cycleTheme()">
+        <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"/>
+        </svg>
+        <span id="theme-label">Otomatis</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden min-h-full w-full">
+  <header class="app-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5 py-3 sm:py-4">
+      <div class="flex items-center gap-3">
+        <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
+        <div class="flex-1 min-w-0">
+          <h1 class="font-display text-lg sm:text-2xl leading-tight truncate brand-etam">EKSKUL ETAM</h1>
+          <p class="text-xs sm:text-sm truncate" style="color:var(--text-muted)">Ekstrakurikuler Terpadu Absensi Murid</p>
+          <p class="hidden md:block text-xs mt-0.5" style="color:var(--text-dim)">UPT SMP Negeri 10 Samarinda</p>
+        </div>
+        <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img hidden sm:block" onerror="this.style.display='none'">
+        <div class="flex items-center gap-2">
+          <button class="theme-toggle-btn" onclick="cycleTheme()" title="Ganti tema">
+            <svg id="theme-icon-app" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+            </svg>
+            <span id="theme-label-app" class="hide-mobile">Otomatis</span>
+          </button>
+          <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
+          <button onclick="logout()" class="btn-icon btn-dark" title="Keluar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <path d="M16 17l5-5-5-5M21 12H9"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sticky top-0 z-40 border-b"
+       style="background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-color:var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-5">
+      <div class="flex gap-2 py-2.5 overflow-x-auto custom-scrollbar" id="nav-tabs"></div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-5 py-5" id="main-content"></main>
+
+  <div id="toast-container" class="fixed top-4 right-4 z-[60] space-y-2"></div>
+</div>
+
+<div id="modal-root"></div>
+<div id="print-area"></div>
+
+<!-- ================= LOCAL JS (urutan WAJIB) ================= -->
+<script src="js/config.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/routes-admin.js"></script>
+<script src="js/routes-guru.js"></script>
+<script src="js/routes-murid.js"></script>
+<script src="js/routes-kas.js"></script>
+<script src="js/routes-laporan.js"></script>
+<script src="js/init.js"></script>
+</body>
+</html>
