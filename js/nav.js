@@ -15,8 +15,8 @@ const NAV={
   guru:[
     {key:'dashboard',label:'Dashboard',icon:'M3 12l9-9 9 9M5 10v10h14V10'},
     {key:'pendaftar',label:'Pendaftar',icon:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
-    {key:'sesi',label:'Sesi',icon:'M9 11l3 3L22 4'},
-    {key:'jurnal',label:'Jurnal',icon:'M4 4h16v16H4z'},
+    {key:'sesi',label:'Sesi',icon:'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'},
+    {key:'jurnal',label:'Jurnal',icon:'M4 4h16v16H4zM8 2v4M16 2v4M4 10h16'},
     {key:'izin',label:'Izin/Sakit',icon:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'},
     {key:'kas',label:'Kas & Iuran',icon:'M2 6h20v12H2zM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'},
     {key:'laporan',label:'Cetak',icon:'M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z'}
@@ -64,9 +64,28 @@ function renderNav(){
 function showTab(key){
   $$('#nav-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
   const tb=$('#tab-'+key);if(tb)tb.classList.add('active');
-  if(key!=='absen'&&key!=='sesi')stopQRScan();
-  const fn=ROUTES[key];if(!fn)return;
+
+  if(key!=='absen'&&key!=='sesi'){
+    if(typeof stopQRScan === 'function'){
+      try{ stopQRScan(); }catch(e){}
+    }
+  }
+
+  const fn=ROUTES[key];
+  if(!fn){
+    console.warn('Route belum terdefinisi:',key);
+    $('#main-content').innerHTML='<div class="card"><div class="card-body text-center" style="padding:40px;color:var(--text-muted)">Halaman <b>'+key+'</b> belum tersedia.</div></div>';
+    return;
+  }
+
   $('#main-content').innerHTML='';
-  fn($('#main-content'));
+  try{
+    fn($('#main-content'));
+  }catch(err){
+    console.error('Render error pada route "'+key+'":',err);
+    $('#main-content').innerHTML='<div class="card"><div class="card-body text-center" style="padding:40px;color:#F87171">Terjadi kesalahan saat memuat halaman.<br><small style="color:var(--text-muted)">'+(err.message||err)+'</small></div></div>';
+  }
+
   if(key==='sesi')setTimeout(afterRenderSesi,80);
 }
+window.showTab = showTab;
