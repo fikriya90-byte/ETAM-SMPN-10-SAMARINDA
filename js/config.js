@@ -2,32 +2,27 @@
    config.js — Konstanta, state global, storage, seed
    ===================================================================== */
 
-/* Konstanta */
 const BULAN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const JABATAN_LABEL={anggota:'Anggota',ketua_ekskul:'Ketua',wakil_ketua:'Wakil Ketua',sekretaris_ekskul:'Sekretaris',bendahara_ekskul:'Bendahara'};
 const JABATAN_LABEL_SHORT={anggota:'Anggota',ketua_ekskul:'Ketua',wakil_ketua:'Wakil',sekretaris_ekskul:'Sekretaris',bendahara_ekskul:'Bendahara'};
 
-/* State global */
 let USERS=[],EKSKUL=[],PEMBINA=[],ANGGOTA=[],JURNAL=[],PRESENSI=[];
 let IURAN_CONFIG={},KAS_BAYAR=[],APP_SETTINGS={};
 let CURRENT_USER=null,CURRENT_EKSKUL_CTX=null,QR_SCANNER=null;
 let KAS_BULAN=new Date().getMonth();
 let KAS_TAHUN=new Date().getFullYear();
 
-/* Storage wrapper */
 const DB={
   get(k,d){try{const s=localStorage.getItem('etam_'+k);return s?JSON.parse(s):(d??null)}catch(e){return d??null}},
   set(k,v){localStorage.setItem('etam_'+k,JSON.stringify(v))}
 };
 
-/* Simpan semua */
 function persist(){
   DB.set('users',USERS);DB.set('ekskul',EKSKUL);DB.set('pembina',PEMBINA);
   DB.set('anggota',ANGGOTA);DB.set('jurnal',JURNAL);DB.set('presensi',PRESENSI);
   DB.set('iuran',IURAN_CONFIG);DB.set('kas_bayar',KAS_BAYAR);DB.set('settings',APP_SETTINGS);
 }
 
-/* Seed data awal */
 function seedIfEmpty(){
   USERS=DB.get('users',null);
   if(!USERS||!USERS.length){
