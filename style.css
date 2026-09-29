@@ -630,3 +630,17 @@ tbody tr:hover td{background:var(--surface-2)}
   @page{size:A4;margin:1.2cm}
   html,body{background:#fff !important;color:#000 !important}
 }
+/* ---------- Z-INDEX SAFETY (mencegah overlap) ---------- */
+.login-art-bg{z-index:0 !important}
+.login-card{position:relative;z-index:10 !important}
+.role-tabs{position:relative;z-index:11}
+.role-tab{
+  position:relative;
+  z-index:1;
+  pointer-events:auto !important;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.role-tab *{pointer-events:none}  /* biar klik selalu kena ke button, bukan child */
+.role-tab svg,
+.role-tab span{pointer-events:none}
