@@ -1,5 +1,5 @@
 /* =====================================================================
-   routes-murid.js — Dashboard murid, Daftar ekskul, Absen, Riwayat
+   routes-murid.js — Dashboard murid, Daftar, Absen, Riwayat
    ===================================================================== */
 
 ROUTES._dashMurid=el=>{
@@ -8,25 +8,25 @@ ROUTES._dashMurid=el=>{
   const H=myP.filter(p=>p.status==='hadir').length,I=myP.filter(p=>p.status.startsWith('izin')).length,S=myP.filter(p=>p.status.startsWith('sakit')).length;
   el.innerHTML=`<div class="card mb-5"><div class="card-body">
       <p class="text-xs uppercase" style="color:var(--text-dim)">Selamat datang,</p>
-      <p class="font-display text-xl" style="color:var(--gold)">${esc(CURRENT_USER.nama_lengkap)}</p>
+      <p class="font-display text-xl" style="color:var(--text)">${esc(CURRENT_USER.nama_lengkap)}</p>
       <p class="text-xs mt-0.5" style="color:var(--text-muted)">Kelas ${esc(CURRENT_USER.kelas||'-')}</p></div></div>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-      <div class="stat-card stat-h"><p class="text-xs uppercase" style="color:var(--text-dim)">Hadir</p><p class="text-2xl font-extrabold mt-1" style="color:#4ADE80">${H}</p></div>
+      <div class="stat-card stat-h"><p class="text-xs uppercase" style="color:var(--text-dim)">Hadir</p><p class="text-2xl font-extrabold mt-1" style="color:#34D399">${H}</p></div>
       <div class="stat-card stat-i"><p class="text-xs uppercase" style="color:var(--text-dim)">Izin</p><p class="text-2xl font-extrabold mt-1" style="color:#FBBF24">${I}</p></div>
       <div class="stat-card stat-s"><p class="text-xs uppercase" style="color:var(--text-dim)">Sakit</p><p class="text-2xl font-extrabold mt-1" style="color:#60A5FA">${S}</p></div>
-      <div class="stat-card stat-cash"><p class="text-xs uppercase" style="color:var(--text-dim)">Ekskul</p><p class="text-2xl font-extrabold mt-1" style="color:var(--gold)">${aktif.length}</p></div></div>`;
+      <div class="stat-card stat-cash"><p class="text-xs uppercase" style="color:var(--text-dim)">Ekskul</p><p class="text-2xl font-extrabold mt-1" style="color:#A78BFA">${aktif.length}</p></div></div>`;
 };
 
 ROUTES.daftar=el=>{
   const mine=ANGGOTA.filter(a=>a.id_user===CURRENT_USER.id_user);
-  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Katalog Ekstrakurikuler</h2></div>
+  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Katalog Ekstrakurikuler</h2></div>
     <div class="card-body space-y-3">
       ${EKSKUL.map(e=>{
         const reg=mine.find(a=>a.id_ekskul===e.id_ekskul);
         const status=!reg?'<span class="chip">Belum terdaftar</span>':reg.status_anggota==='aktif'?'<span class="chip chip-ok">Aktif</span>':'<span class="chip chip-warn">Menunggu</span>';
         const btn=!reg?`<button onclick="daftarEkskul('${e.id_ekskul}')" class="btn btn-primary" style="padding:6px 14px;font-size:12px;">Daftar</button>`:'';
         return `<div style="display:flex;align-items:center;gap:12px;padding:11px 13px;background:var(--surface-2);border:1px solid var(--border);border-radius:11px">
-          <div style="width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0B0B0D;background:linear-gradient(135deg,var(--gold-soft),var(--gold))">${esc(e.nama_ekskul.slice(0,2).toUpperCase())}</div>
+          <div style="width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#0B0B0D;background:linear-gradient(135deg,#3B82F6,#8B5CF6)">${esc(e.nama_ekskul.slice(0,2).toUpperCase())}</div>
           <div class="flex-1 min-w-0"><p class="font-semibold text-sm">${esc(e.nama_ekskul)}</p>
           <p class="text-xs" style="color:var(--text-dim)">${esc(e.jadwal_rutin||'-')}</p></div>
           <div class="flex flex-col gap-1 items-end">${status}${btn}</div></div>`;}).join('')}
@@ -43,25 +43,21 @@ ROUTES.absen=el=>{
   const ids=mine.map(a=>a.id_ekskul);
   const openSesi=JURNAL.filter(j=>ids.includes(j.id_ekskul)&&j.status==='open');
   el.innerHTML=`
-    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Absen Kehadiran</h2>
+    <div class="card mb-5"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Absen Kehadiran</h2>
       <span class="chip">${openSesi.length} sesi terbuka</span></div>
     <div class="card-body space-y-4">
       <p class="text-sm" style="color:var(--text-muted)">Pilih: <b>scan QR</b> di lokasi, atau <b>kode manual</b>.</p>
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="startQRScan()" class="btn btn-purple" style="padding:14px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
-          Scan QR</button>
-        <button onclick="showManualForm()" class="btn btn-blue" style="padding:14px">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
-          Kode Manual</button>
+        <button onclick="startQRScan()" class="btn btn-purple" style="padding:14px">Scan QR</button>
+        <button onclick="showManualForm()" class="btn btn-blue" style="padding:14px">Kode Manual</button>
       </div>
       <div id="qr-scan-wrap" class="hidden">
         <div class="p-3 rounded-xl" style="background:var(--surface-2);border:1px solid var(--border)">
           <div class="flex justify-between items-center mb-2">
-            <p class="text-xs font-bold" style="color:var(--gold)">Arahkan kamera ke QR Code</p>
+            <p class="text-xs font-bold" style="color:var(--text)">Arahkan kamera ke QR Code</p>
             <button onclick="stopQRScan()" class="btn btn-danger" style="padding:4px 10px;font-size:11.5px;">Tutup</button></div>
           <div id="qr-reader"></div>
-          <p class="text-[11px] mt-2 text-center" style="color:var(--text-dim)">💡 Izinkan akses kamera. Kompatibel iPhone & Android.</p>
+          <p class="text-[11px] mt-2 text-center" style="color:var(--text-dim)">Izinkan akses kamera.</p>
         </div>
       </div>
       <div id="manual-wrap" class="hidden space-y-3">
@@ -133,7 +129,7 @@ ROUTES.absen=el=>{
 
 ROUTES.riwayat=el=>{
   const mine=PRESENSI.filter(p=>p.id_user===CURRENT_USER.id_user).sort((a,b)=>(b.waktu_absen||'').localeCompare(a.waktu_absen||''));
-  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--gold)">Riwayat Presensi</h2><span class="chip">${mine.length}</span></div>
+  el.innerHTML=`<div class="card"><div class="card-header"><h2 class="font-display text-lg" style="color:var(--text)">Riwayat Presensi</h2><span class="chip">${mine.length}</span></div>
     <div class="overflow-x-auto custom-scrollbar"><table><thead><tr><th>Tanggal</th><th>Ekskul</th><th>Materi</th><th style="text-align:center;">Status</th></tr></thead>
     <tbody>${mine.length?mine.map(p=>{const j=JURNAL.find(x=>x.id_pertemuan===p.id_pertemuan);if(!j)return '';const e=ekskulById(j.id_ekskul);
       const st=p.status,cls=st==='hadir'?'badge-H':st.startsWith('izin')?'badge-I':st.startsWith('sakit')?'badge-S':st==='alpa'?'badge-A':'badge-P';
