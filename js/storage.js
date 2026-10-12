@@ -208,4 +208,4 @@ window.kirimNotifEkskul = kirimNotifEkskul;
 window.kirimNotifSemua = kirimNotifSemua;
 window.notifSaya = notifSaya;
 window.countNotifBelumDibaca = countNotifBelumDibaca;
-window.updateNotifBadge = updateNotifBadge;
+window.updateNotifBadge = updateNotifBadge; 
