@@ -131,11 +131,11 @@ async function processPhotoWithGeo(file, ekskulNama, userName) {
   const mapsUrl = `maps.google.com/?q=${gps.lat.toFixed(6)},${gps.lng.toFixed(6)}`;
   const signature = await generateSignature(file);
   const lines = [
-    `📍 ${koord} ${akurasi}`,
-    `🗺️ ${mapsUrl}`,
-    `🕐 ${tgl} · ${jam} WITA`,
-    `🏫 ${ekskulNama} — ${userName}`,
-    `🔐 ${signature}`
+    `${koord} ${akurasi}`,
+    `${mapsUrl}`,
+    `${tgl} · ${jam} WITA`,
+    `${ekskulNama} — ${userName}`,
+    `${signature}`
   ];
   const watermarked = await addWatermark(compressed, lines);
   return {
@@ -148,4 +148,4 @@ async function processPhotoWithGeo(file, ekskulNama, userName) {
 
 window.compressImage = compressImage;
 window.processPhotoWithGeo = processPhotoWithGeo;
-window.getCurrentLocation = getCurrentLocation;
+window.getCurrentLocation = getCurrentLocation; 
