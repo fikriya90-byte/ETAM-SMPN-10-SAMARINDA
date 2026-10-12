@@ -349,4 +349,4 @@ ROUTES.peta = el => {
       map.fitBounds(bounds, { padding: [30, 30], maxZoom: 16 });
     }
   }, 100);
-};
+}; 
