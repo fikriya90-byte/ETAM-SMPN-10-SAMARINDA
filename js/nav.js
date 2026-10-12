@@ -222,4 +222,4 @@ window.ROUTES = ROUTES;
 window.renderNav = renderNav;
 window.openSidebarMobile = openSidebarMobile;
 window.closeSidebarMobile = closeSidebarMobile;
-window.toggleSidebar = toggleSidebar;
+window.toggleSidebar = toggleSidebar; 
