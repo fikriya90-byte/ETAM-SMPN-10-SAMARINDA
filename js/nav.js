@@ -99,7 +99,6 @@ function renderNav() {
   const navEl = document.getElementById('nav-tabs');
   if (!navEl) return;
 
-  // Group by category
   const groups = {};
   tabs.forEach(t => {
     const g = t.group || 'Lainnya';
@@ -118,8 +117,8 @@ function renderNav() {
   navEl.innerHTML = `
     <div class="sidebar-header">
       <div class="sidebar-logos">
-        <img src="https://iili.io/nHvZkQt.md.png" alt="SMPN 10" class="sidebar-logo" onerror="this.style.display='none'">
-        <img src="https://iili.io/nYaQluR.md.png" alt="ETAM" class="sidebar-logo" onerror="this.style.display='none'">
+        <img src="https://iili.io/nBiviCX.png" alt="SMPN 10" class="sidebar-logo" onerror="this.style.display='none'">
+        <img src="https://iili.io/nVPEvv2.md.png" alt="ETAM" class="sidebar-logo" onerror="this.style.display='none'">
       </div>
       <div class="sidebar-brand">
         <p class="sidebar-brand-title">ETAM</p>
@@ -181,12 +180,10 @@ function showTab(key) {
     console.error(e);
     el.innerHTML = `<div class="card"><div class="card-body text-center py-8" style="color:#F87171">Error: ${esc(e.message)}</div></div>`;
   }
-  // Update page title
   const tabs = NAV[CURRENT_USER.role_sistem] || [];
   const cur = tabs.find(t => t.key === key);
   const titleEl = document.getElementById('page-title');
   if (titleEl && cur) titleEl.textContent = cur.label;
-  // Close sidebar on mobile
   if (window.innerWidth < 1024) closeSidebarMobile();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -215,11 +212,10 @@ function toggleSidebar() {
   else openSidebarMobile();
 }
 
-/* ============ EXPORT ============ */
 window.showTab = showTab;
 window.NAV = NAV;
 window.ROUTES = ROUTES;
 window.renderNav = renderNav;
 window.openSidebarMobile = openSidebarMobile;
 window.closeSidebarMobile = closeSidebarMobile;
-window.toggleSidebar = toggleSidebar; 
+window.toggleSidebar = toggleSidebar;
