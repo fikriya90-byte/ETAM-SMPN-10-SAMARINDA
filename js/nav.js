@@ -31,6 +31,7 @@ const NAV = {
     { key:'laporan', label:'Laporan' },
     { key:'kalender', label:'Kalender' },
     { key:'profil', label:'Profil' },
+    { key:'gantipwd', label:'Ganti Pwd' },
     { key:'faq', label:'FAQ' }
   ],
   pelatih: [
@@ -46,6 +47,7 @@ const NAV = {
     { key:'laporan', label:'Laporan' },
     { key:'kalender', label:'Kalender' },
     { key:'profil', label:'Profil' },
+    { key:'gantipwd', label:'Ganti Pwd' },
     { key:'faq', label:'FAQ' }
   ],
   pengurus: [
@@ -61,6 +63,7 @@ const NAV = {
     { key:'laporan', label:'Laporan' },
     { key:'kalender', label:'Kalender' },
     { key:'profil', label:'Profil' },
+    { key:'gantipwd', label:'Ganti Pwd' },
     { key:'faq', label:'FAQ' }
   ],
   murid: [
@@ -75,7 +78,8 @@ const NAV = {
     { key:'kalender', label:'Kalender' },
     { key:'peta', label:'Peta' },
     { key:'notifikasi', label:'Notifikasi' },
-    { key:'profil', label:'Profil Saya' },
+    { key:'profil', label:'Profil' },
+    { key:'gantipwd', label:'Ganti Pwd' },
     { key:'faq', label:'FAQ' }
   ]
 };
