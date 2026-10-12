@@ -3,10 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0A0E27">
 <title>ETAM — Ekstrakurikuler Terpadu Absensi Murid</title>
+<link rel="manifest" href="./manifest.json">
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<!-- Leaflet peta gratis tanpa API key -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +32,6 @@
   </div>
 
   <div class="login-card animate-fade-in">
-
     <aside class="login-brand">
       <div class="brand-top">
         <div class="brand-badge">ETAM</div>
@@ -35,22 +40,15 @@
       </div>
       <div class="brand-features">
         <div class="feature-item"><span class="feature-dot"></span><span>Presensi digital real-time</span></div>
-        <div class="feature-item"><span class="feature-dot"></span><span>Jurnal &amp; dokumentasi kegiatan</span></div>
+        <div class="feature-item"><span class="feature-dot"></span><span>Foto auto GPS &amp; watermark</span></div>
         <div class="feature-item"><span class="feature-dot"></span><span>Kas &amp; iuran transparan</span></div>
-        <div class="feature-item"><span class="feature-dot"></span><span>Laporan otomatis siap cetak</span></div>
+        <div class="feature-item"><span class="feature-dot"></span><span>Struktur pengurus digital</span></div>
       </div>
       <p class="brand-copy">&copy; <span id="brand-year"></span> SMP Negeri 10 Samarinda</p>
-      <div class="brand-deco brand-deco-1"></div>
-      <div class="brand-deco brand-deco-2"></div>
     </aside>
 
     <section class="login-form-side">
-
       <div class="login-head">
-        <div class="logo-row">
-          <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
-          <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img" onerror="this.style.display='none'">
-        </div>
         <h1 class="brand-etam brand-title">ETAM</h1>
         <p class="brand-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
         <p class="brand-school">SMP Negeri 10 Samarinda</p>
@@ -83,12 +81,12 @@
 
         <form id="form-login" onsubmit="handleLogin(event)">
           <div class="field-group">
-            <label class="field-label" for="login-email">Email</label>
+            <label class="field-label" for="login-email">Email / NIS</label>
             <div class="input-wrap">
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>
               </svg>
-              <input type="email" id="login-email" class="field-input has-icon" placeholder="nama@email.com" autocomplete="username" required>
+              <input type="text" id="login-email" class="field-input has-icon" placeholder="email atau NIS" autocomplete="username" required>
             </div>
           </div>
           <div class="field-group">
@@ -97,81 +95,71 @@
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
-              <input type="password" id="login-password" class="field-input has-icon" placeholder="Masukkan password" autocomplete="current-password" required>
+              <input type="password" id="login-password" class="field-input has-icon" placeholder="Password" autocomplete="current-password" required>
             </div>
           </div>
           <div id="login-error" class="alert alert-error hidden"></div>
           <button type="submit" class="btn btn-primary btn-block">
             <span>Masuk</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
           </button>
         </form>
 
         <div class="login-register" id="login-register-row">
           <span>Belum punya akun?</span>
-          <a onclick="openRegister()">Daftar sebagai Siswa</a>
+          <a onclick="openRegister()">Daftar</a>
+          <span>·</span>
+          <a onclick="openForgot()">Lupa Password</a>
         </div>
 
         <div class="login-footer">
           <span class="login-footer-label">Tema tampilan</span>
           <button type="button" class="theme-toggle-btn" onclick="cycleTheme()">
-            <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="4"/>
-            </svg>
             <span id="theme-label">Otomatis</span>
           </button>
         </div>
       </div>
 
       <div id="view-register" class="hidden">
-        <button type="button" class="back-btn" onclick="closeRegister()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-          </svg>
-          Kembali ke Login
-        </button>
+        <button type="button" class="back-btn" onclick="closeRegister()">← Kembali ke Login</button>
         <h2 class="register-title">Daftar Akun Siswa</h2>
-        <p class="register-subtitle">Isi data berikut untuk mendaftar ke ekstrakurikuler.</p>
-
+        <p class="register-subtitle">Isi data berikut untuk mendaftar.</p>
         <form id="form-register" onsubmit="handleRegister(event)">
-          <div class="field-group">
-            <label class="field-label" for="reg-name">Nama Lengkap</label>
-            <input type="text" id="reg-name" class="field-input" placeholder="Nama lengkap" required>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="reg-email">Email</label>
-            <input type="email" id="reg-email" class="field-input" placeholder="nama@email.com" required>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="reg-wa">No. WhatsApp</label>
-            <input type="tel" id="reg-wa" class="field-input" placeholder="08xx" required>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="reg-kelas">Kelas</label>
+          <div class="field-group"><label class="field-label">Nama Lengkap</label>
+            <input type="text" id="reg-name" class="field-input" placeholder="Nama lengkap" required></div>
+          <div class="field-group"><label class="field-label">Email</label>
+            <input type="email" id="reg-email" class="field-input" placeholder="nama@email.com" required></div>
+          <div class="field-group"><label class="field-label">NIS</label>
+            <input type="text" id="reg-nis" class="field-input" placeholder="Nomor Induk Siswa" required></div>
+          <div class="field-group"><label class="field-label">NISN (opsional)</label>
+            <input type="text" id="reg-nisn" class="field-input" placeholder="NISN"></div>
+          <div class="field-group"><label class="field-label">No. WhatsApp</label>
+            <input type="tel" id="reg-wa" class="field-input" placeholder="08xx" required></div>
+          <div class="field-group"><label class="field-label">Kelas</label>
             <select id="reg-kelas" class="field-input" required>
               <option value="">Pilih Kelas</option>
               <option>7A</option><option>7B</option><option>7C</option><option>7D</option><option>7E</option>
-              <option>7F</option><option>7G</option><option>7H</option><option>7I</option><option>7J</option>
-              <option>8A</option><option>8B</option><option>9A</option><option>9B</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="reg-password">Password</label>
-            <input type="password" id="reg-password" class="field-input" placeholder="Min 6 karakter" required minlength="6">
-          </div>
+              <option>7F</option><option>7G</option><option>7H</option><option>8A</option><option>8B</option>
+              <option>8C</option><option>8D</option><option>9A</option><option>9B</option><option>9C</option><option>9D</option>
+            </select></div>
+          <div class="field-group"><label class="field-label">Password</label>
+            <input type="password" id="reg-password" class="field-input" placeholder="Min 6 karakter" required minlength="6"></div>
           <div id="reg-error" class="alert alert-error hidden"></div>
           <div id="reg-info" class="alert alert-info hidden"></div>
-          <button type="submit" class="btn btn-primary btn-block">
-            <span>Daftar Sekarang</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </button>
+          <button type="submit" class="btn btn-primary btn-block">Daftar Sekarang</button>
         </form>
       </div>
 
+      <div id="view-forgot" class="hidden">
+        <button type="button" class="back-btn" onclick="closeForgot()">← Kembali ke Login</button>
+        <h2 class="register-title">Lupa Password</h2>
+        <p class="register-subtitle">Masukkan email atau NIS. Admin akan mereset password Anda.</p>
+        <form id="form-forgot" onsubmit="handleForgot(event)">
+          <div class="field-group"><label class="field-label">Email / NIS</label>
+            <input type="text" id="forgot-input" class="field-input" required></div>
+          <div id="forgot-info" class="alert alert-info hidden"></div>
+          <button type="submit" class="btn btn-primary btn-block">Kirim Permintaan</button>
+        </form>
+      </div>
     </section>
   </div>
 </div>
@@ -180,26 +168,17 @@
 <div id="app" class="hidden">
   <header class="app-header">
     <div class="header-inner">
-      <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
       <div class="header-titles">
         <h1 class="brand-etam header-title">ETAM</h1>
         <p class="header-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
-        <p class="header-school">UPT SMP Negeri 10 Samarinda</p>
+        <p class="header-school">SMP Negeri 10 Samarinda</p>
       </div>
-      <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img header-logo-right" onerror="this.style.display='none'">
       <div class="header-actions">
-        <button type="button" class="theme-toggle-btn" onclick="cycleTheme()" title="Ganti tema">
-          <svg id="theme-icon-app" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="4"/>
-          </svg>
-          <span id="theme-label-app" class="hide-mobile">Otomatis</span>
+        <button type="button" class="theme-toggle-btn" onclick="cycleTheme()">
+          <span id="theme-label-app" class="hide-mobile">Auto</span>
         </button>
         <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
-        <button type="button" onclick="logout()" class="btn-icon btn-dark" title="Keluar">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/>
-          </svg>
-        </button>
+        <button type="button" onclick="logout()" class="btn-icon btn-dark" title="Keluar">⎋</button>
       </div>
     </div>
   </header>
@@ -211,7 +190,6 @@
   </nav>
 
   <main class="main-content" id="main-content"></main>
-
   <div id="toast-container" class="toast-container"></div>
 </div>
 
@@ -220,12 +198,15 @@
 
 <script src="js/config.js"></script>
 <script src="js/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/photo.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/nav.js"></script>
 <script src="js/routes-admin.js"></script>
 <script src="js/routes-guru.js"></script>
 <script src="js/routes-murid.js"></script>
 <script src="js/routes-kas.js"></script>
+<script src="js/routes-struktur.js"></script>
 <script src="js/routes-laporan.js"></script>
 <script src="js/init.js"></script>
 </body>
