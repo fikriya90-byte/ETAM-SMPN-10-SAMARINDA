@@ -499,4 +499,4 @@ tbody tr:hover td{background:var(--surface-2)}
 }
 
 /* Hide old header/nav jika masih ada */
-.app-header,.nav-bar{display:none !important}
+.app-header,.nav-bar{display:none !important} 
