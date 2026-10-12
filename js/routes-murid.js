@@ -278,4 +278,4 @@ ROUTES.kartu = el => {
       </body></html>`);
     win.document.close();
   };
-};
+}; 
