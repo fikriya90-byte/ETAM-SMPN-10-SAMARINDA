@@ -351,4 +351,4 @@ function renderProfilUser(el) {
   };
 }
 
-window.renderProfilUser = renderProfilUser;
+window.renderProfilUser = renderProfilUser; 
