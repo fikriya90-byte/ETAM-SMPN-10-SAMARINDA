@@ -4,97 +4,96 @@
 
 const NAV = {
   admin: [
-    { key:'dashboard',   label:'Dashboard',   icon:'📊', group:'Utama' },
-    { key:'verifikasi',  label:'Verifikasi',  icon:'✅', group:'Utama' },
-    { key:'ekskul',      label:'Ekskul',      icon:'🏫', group:'Manajemen' },
-    { key:'struktur',    label:'Struktur',    icon:'👥', group:'Manajemen' },
-    { key:'pengumuman',  label:'Pengumuman',  icon:'📢', group:'Manajemen' },
-    { key:'rekap',       label:'Rekap Global',icon:'📋', group:'Laporan' },
-    { key:'kas',         label:'Kas',         icon:'💰', group:'Laporan' },
-    { key:'laporan',     label:'Laporan',     icon:'📄', group:'Laporan' },
-    { key:'statistik',   label:'Statistik',   icon:'📈', group:'Laporan' },
-    { key:'peta',        label:'Peta',        icon:'🗺️', group:'Lainnya' },
-    { key:'log',         label:'Log',         icon:'📜', group:'Lainnya' },
-    { key:'lupapwd',     label:'Lupa Pwd',    icon:'🔑', group:'Lainnya' },
-    { key:'setting',     label:'Setting',     icon:'⚙️', group:'Lainnya' },
-    { key:'faq',         label:'FAQ',         icon:'❓', group:'Lainnya' }
+    { key:'dashboard',   label:'Dashboard',    icon:'📊', group:'Utama' },
+    { key:'verifikasi',  label:'Verifikasi',   icon:'✅', group:'Utama' },
+    { key:'ekskul',      label:'Ekskul',       icon:'🏫', group:'Manajemen' },
+    { key:'struktur',    label:'Struktur',     icon:'👥', group:'Manajemen' },
+    { key:'pengumuman',  label:'Pengumuman',   icon:'📢', group:'Manajemen' },
+    { key:'rekap',       label:'Rekap Global', icon:'📋', group:'Laporan' },
+    { key:'kas',         label:'Kas',          icon:'💰', group:'Laporan' },
+    { key:'laporan',     label:'Laporan',      icon:'📄', group:'Laporan' },
+    { key:'statistik',   label:'Statistik',    icon:'📈', group:'Laporan' },
+    { key:'peta',        label:'Peta',         icon:'🗺️', group:'Lainnya' },
+    { key:'log',         label:'Log',          icon:'📜', group:'Lainnya' },
+    { key:'lupapwd',     label:'Lupa Pwd',     icon:'🔑', group:'Lainnya' },
+    { key:'setting',     label:'Setting',      icon:'⚙️', group:'Lainnya' },
+    { key:'faq',         label:'FAQ',          icon:'❓', group:'Lainnya' }
   ],
   guru: [
-    { key:'dashboard',   label:'Dashboard',   icon:'📊', group:'Utama' },
-    { key:'sesi',        label:'Sesi',        icon:'📅', group:'Kegiatan' },
-    { key:'jurnal',      label:'Jurnal',      icon:'📖', group:'Kegiatan' },
-    { key:'izin',        label:'Izin',        icon:'✋', group:'Kegiatan' },
-    { key:'kalender',    label:'Kalender',    icon:'🗓️', group:'Kegiatan' },
-    { key:'struktur',    label:'Struktur',    icon:'👥', group:'Manajemen' },
-    { key:'konten',      label:'Konten',      icon:'📰', group:'Manajemen' },
-    { key:'pengumuman',  label:'Pengumuman',  icon:'📢', group:'Manajemen' },
-    { key:'foto',        label:'Foto',        icon:'📸', group:'Dokumentasi' },
-    { key:'kas',         label:'Kas',         icon:'💰', group:'Keuangan' },
-    { key:'laporan',     label:'Laporan',     icon:'📄', group:'Laporan' },
-    { key:'statistik',   label:'Statistik',   icon:'📈', group:'Laporan' },
-    { key:'peta',        label:'Peta',        icon:'🗺️', group:'Lainnya' },
-    { key:'profil',      label:'Profil Ekskul', icon:'🏫', group:'Lainnya' },
-    { key:'gantipwd',    label:'Ganti Pwd',   icon:'🔒', group:'Lainnya' },
-    { key:'faq',         label:'FAQ',         icon:'❓', group:'Lainnya' }
+    { key:'dashboard',   label:'Dashboard',    icon:'📊', group:'Utama' },
+    { key:'sesi',        label:'Sesi',         icon:'📅', group:'Kegiatan' },
+    { key:'jurnal',      label:'Jurnal',       icon:'📖', group:'Kegiatan' },
+    { key:'izin',        label:'Izin',         icon:'✋', group:'Kegiatan' },
+    { key:'kalender',    label:'Kalender',     icon:'🗓️', group:'Kegiatan' },
+    { key:'struktur',    label:'Struktur',     icon:'👥', group:'Manajemen' },
+    { key:'konten',      label:'Konten',       icon:'📰', group:'Manajemen' },
+    { key:'pengumuman',  label:'Pengumuman',   icon:'📢', group:'Manajemen' },
+    { key:'foto',        label:'Foto',         icon:'📸', group:'Dokumentasi' },
+    { key:'kas',         label:'Kas',          icon:'💰', group:'Keuangan' },
+    { key:'laporan',     label:'Laporan',      icon:'📄', group:'Laporan' },
+    { key:'statistik',   label:'Statistik',    icon:'📈', group:'Laporan' },
+    { key:'peta',        label:'Peta',         icon:'🗺️', group:'Lainnya' },
+    { key:'profil',      label:'Profil Ekskul',icon:'🏫', group:'Lainnya' },
+    { key:'gantipwd',    label:'Ganti Pwd',    icon:'🔒', group:'Lainnya' },
+    { key:'faq',         label:'FAQ',          icon:'❓', group:'Lainnya' }
   ],
   pelatih: [
-    { key:'dashboard',   label:'Dashboard',   icon:'📊', group:'Utama' },
-    { key:'sesi',        label:'Sesi',        icon:'📅', group:'Kegiatan' },
-    { key:'jurnal',      label:'Jurnal',      icon:'📖', group:'Kegiatan' },
-    { key:'izin',        label:'Izin',        icon:'✋', group:'Kegiatan' },
-    { key:'kalender',    label:'Kalender',    icon:'🗓️', group:'Kegiatan' },
-    { key:'struktur',    label:'Struktur',    icon:'👥', group:'Manajemen' },
-    { key:'konten',      label:'Konten',      icon:'📰', group:'Manajemen' },
-    { key:'pengumuman',  label:'Pengumuman',  icon:'📢', group:'Manajemen' },
-    { key:'foto',        label:'Foto',        icon:'📸', group:'Dokumentasi' },
-    { key:'kas',         label:'Kas',         icon:'💰', group:'Keuangan' },
-    { key:'laporan',     label:'Laporan',     icon:'📄', group:'Laporan' },
-    { key:'statistik',   label:'Statistik',   icon:'📈', group:'Laporan' },
-    { key:'peta',        label:'Peta',        icon:'🗺️', group:'Lainnya' },
-    { key:'profil',      label:'Profil Ekskul', icon:'🏫', group:'Lainnya' },
-    { key:'gantipwd',    label:'Ganti Pwd',   icon:'🔒', group:'Lainnya' },
-    { key:'faq',         label:'FAQ',         icon:'❓', group:'Lainnya' }
+    { key:'dashboard',   label:'Dashboard',    icon:'📊', group:'Utama' },
+    { key:'sesi',        label:'Sesi',         icon:'📅', group:'Kegiatan' },
+    { key:'jurnal',      label:'Jurnal',       icon:'📖', group:'Kegiatan' },
+    { key:'izin',        label:'Izin',         icon:'✋', group:'Kegiatan' },
+    { key:'kalender',    label:'Kalender',     icon:'🗓️', group:'Kegiatan' },
+    { key:'struktur',    label:'Struktur',     icon:'👥', group:'Manajemen' },
+    { key:'konten',      label:'Konten',       icon:'📰', group:'Manajemen' },
+    { key:'pengumuman',  label:'Pengumuman',   icon:'📢', group:'Manajemen' },
+    { key:'foto',        label:'Foto',         icon:'📸', group:'Dokumentasi' },
+    { key:'kas',         label:'Kas',          icon:'💰', group:'Keuangan' },
+    { key:'laporan',     label:'Laporan',      icon:'📄', group:'Laporan' },
+    { key:'statistik',   label:'Statistik',    icon:'📈', group:'Laporan' },
+    { key:'peta',        label:'Peta',         icon:'🗺️', group:'Lainnya' },
+    { key:'profil',      label:'Profil Ekskul',icon:'🏫', group:'Lainnya' },
+    { key:'gantipwd',    label:'Ganti Pwd',    icon:'🔒', group:'Lainnya' },
+    { key:'faq',         label:'FAQ',          icon:'❓', group:'Lainnya' }
   ],
   pengurus: [
-    { key:'dashboard',   label:'Dashboard',   icon:'📊', group:'Utama' },
-    { key:'sesi',        label:'Sesi',        icon:'📅', group:'Kegiatan' },
-    { key:'jurnal',      label:'Jurnal',      icon:'📖', group:'Kegiatan' },
-    { key:'izin',        label:'Izin',        icon:'✋', group:'Kegiatan' },
-    { key:'kalender',    label:'Kalender',    icon:'🗓️', group:'Kegiatan' },
-    { key:'struktur',    label:'Struktur',    icon:'👥', group:'Manajemen' },
-    { key:'konten',      label:'Konten',      icon:'📰', group:'Manajemen' },
-    { key:'pengumuman',  label:'Pengumuman',  icon:'📢', group:'Manajemen' },
-    { key:'foto',        label:'Foto',        icon:'📸', group:'Dokumentasi' },
-    { key:'kas',         label:'Kas',         icon:'💰', group:'Keuangan' },
-    { key:'laporan',     label:'Laporan',     icon:'📄', group:'Laporan' },
-    { key:'statistik',   label:'Statistik',   icon:'📈', group:'Laporan' },
-    { key:'peta',        label:'Peta',        icon:'🗺️', group:'Lainnya' },
-    { key:'profil',      label:'Profil Ekskul', icon:'🏫', group:'Lainnya' },
-    { key:'gantipwd',    label:'Ganti Pwd',   icon:'🔒', group:'Lainnya' },
-    { key:'faq',         label:'FAQ',         icon:'❓', group:'Lainnya' }
+    { key:'dashboard',   label:'Dashboard',    icon:'📊', group:'Utama' },
+    { key:'sesi',        label:'Sesi',         icon:'📅', group:'Kegiatan' },
+    { key:'jurnal',      label:'Jurnal',       icon:'📖', group:'Kegiatan' },
+    { key:'izin',        label:'Izin',         icon:'✋', group:'Kegiatan' },
+    { key:'kalender',    label:'Kalender',     icon:'🗓️', group:'Kegiatan' },
+    { key:'struktur',    label:'Struktur',     icon:'👥', group:'Manajemen' },
+    { key:'konten',      label:'Konten',       icon:'📰', group:'Manajemen' },
+    { key:'pengumuman',  label:'Pengumuman',   icon:'📢', group:'Manajemen' },
+    { key:'foto',        label:'Foto',         icon:'📸', group:'Dokumentasi' },
+    { key:'kas',         label:'Kas',          icon:'💰', group:'Keuangan' },
+    { key:'laporan',     label:'Laporan',      icon:'📄', group:'Laporan' },
+    { key:'statistik',   label:'Statistik',    icon:'📈', group:'Laporan' },
+    { key:'peta',        label:'Peta',         icon:'🗺️', group:'Lainnya' },
+    { key:'profil',      label:'Profil Ekskul',icon:'🏫', group:'Lainnya' },
+    { key:'gantipwd',    label:'Ganti Pwd',    icon:'🔒', group:'Lainnya' },
+    { key:'faq',         label:'FAQ',          icon:'❓', group:'Lainnya' }
   ],
   murid: [
-    { key:'dashboard',   label:'Dashboard',   icon:'📊', group:'Utama' },
-    { key:'daftar',      label:'Daftar Ekskul', icon:'➕', group:'Kegiatan' },
-    { key:'absen',       label:'Absen',       icon:'✅', group:'Kegiatan' },
-    { key:'riwayat',     label:'Riwayat',     icon:'📋', group:'Kegiatan' },
-    { key:'kalender',    label:'Kalender',    icon:'🗓️', group:'Kegiatan' },
-    { key:'kas',         label:'Kas Saya',    icon:'💰', group:'Keuangan' },
+    { key:'dashboard',   label:'Dashboard',    icon:'📊', group:'Utama' },
+    { key:'daftar',      label:'Daftar Ekskul',icon:'➕', group:'Kegiatan' },
+    { key:'absen',       label:'Absen',        icon:'✅', group:'Kegiatan' },
+    { key:'riwayat',     label:'Riwayat',      icon:'📋', group:'Kegiatan' },
+    { key:'kalender',    label:'Kalender',     icon:'🗓️', group:'Kegiatan' },
+    { key:'kas',         label:'Kas Saya',     icon:'💰', group:'Keuangan' },
     { key:'kartu',       label:'Kartu Ekskul', icon:'🎫', group:'Keuangan' },
-    { key:'pengumuman',  label:'Pengumuman',  icon:'📢', group:'Informasi' },
-    { key:'konten',      label:'Info & Kegiatan', icon:'📰', group:'Informasi' },
-    { key:'notifikasi',  label:'Notifikasi',  icon:'🔔', group:'Informasi' },
-    { key:'peta',        label:'Peta',        icon:'🗺️', group:'Lainnya' },
-    { key:'profil',      label:'Profil Saya', icon:'👤', group:'Lainnya' },
-    { key:'gantipwd',    label:'Ganti Pwd',   icon:'🔒', group:'Lainnya' },
-    { key:'faq',         label:'FAQ',         icon:'❓', group:'Lainnya' }
+    { key:'pengumuman',  label:'Pengumuman',   icon:'📢', group:'Informasi' },
+    { key:'konten',      label:'Info & Kegiatan',icon:'📰', group:'Informasi' },
+    { key:'notifikasi',  label:'Notifikasi',   icon:'🔔', group:'Informasi' },
+    { key:'peta',        label:'Peta',         icon:'🗺️', group:'Lainnya' },
+    { key:'profil',      label:'Profil Saya',  icon:'👤', group:'Lainnya' },
+    { key:'gantipwd',    label:'Ganti Pwd',    icon:'🔒', group:'Lainnya' },
+    { key:'faq',         label:'FAQ',          icon:'❓', group:'Lainnya' }
   ]
 };
 
 const ROUTES = {};
 
 /* ============ SIDEBAR RENDER ============ */
-
 function renderNav() {
   const tabs = NAV[CURRENT_USER.role_sistem] || [];
   const navEl = document.getElementById('nav-tabs');
@@ -146,7 +145,7 @@ function renderNav() {
         <div class="sidebar-group">
           <p class="sidebar-group-label">${esc(g)}</p>
           ${groups[g].map(t => `
-            <button class="sidebar-item" data-tab="${t.key}" onclick="showTab('${t.key}'); closeSidebarMobile();">
+            <button class="sidebar-item" data-tab="${t.key}" onclick="showTab('${t.key}')">
               <span class="sidebar-item-icon">${t.icon}</span>
               <span class="sidebar-item-text">${esc(t.label)}</span>
             </button>
@@ -165,7 +164,6 @@ function renderNav() {
 }
 
 /* ============ SHOW TAB ============ */
-
 function showTab(key) {
   if (!key || !ROUTES[key]) {
     const el = document.getElementById('main-content');
@@ -194,35 +192,34 @@ function showTab(key) {
 }
 
 /* ============ SIDEBAR MOBILE ============ */
-
 function openSidebarMobile() {
-  document.getElementById('sidebar').classList.add('open');
-  document.getElementById('sidebar-overlay').classList.add('open');
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  if (sb) sb.classList.add('open');
+  if (ov) ov.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeSidebarMobile() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebar-overlay').classList.remove('open');
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  if (sb) sb.classList.remove('open');
+  if (ov) ov.classList.remove('open');
   document.body.style.overflow = '';
 }
 
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
-  if (sidebar.classList.contains('open')) {
-    closeSidebarMobile();
-  } else {
-    openSidebarMobile();
-  }
+  if (!sidebar) return;
+  if (sidebar.classList.contains('open')) closeSidebarMobile();
+  else openSidebarMobile();
 }
 
-window.openSidebarMobile = openSidebarMobile;
-window.closeSidebarMobile = closeSidebarMobile;
-window.toggleSidebar = toggleSidebar;
-
 /* ============ EXPORT ============ */
-
 window.showTab = showTab;
 window.NAV = NAV;
 window.ROUTES = ROUTES;
-window.renderNav = renderNav; 
+window.renderNav = renderNav;
+window.openSidebarMobile = openSidebarMobile;
+window.closeSidebarMobile = closeSidebarMobile;
+window.toggleSidebar = toggleSidebar;
