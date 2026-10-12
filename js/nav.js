@@ -225,4 +225,4 @@ window.toggleSidebar = toggleSidebar;
 window.showTab = showTab;
 window.NAV = NAV;
 window.ROUTES = ROUTES;
-window.renderNav = renderNav;
+window.renderNav = renderNav; 
