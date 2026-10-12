@@ -125,4 +125,4 @@ async function seedIfEmpty() {
   LOGS = DB.get('logs', []) || [];
   LUPA_PASSWORD = DB.get('lupa_password', []) || [];
   APP_SETTINGS = Object.assign({}, DEFAULT_SETTINGS, DB.get('settings', {}) || {});
-}
+} 
