@@ -124,4 +124,4 @@ window.downloadLaporan = () => {
   a.href = url; a.download = 'Laporan_Etam.doc'; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   showToast('File diunduh');
-};
+}; 
