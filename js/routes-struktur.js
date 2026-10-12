@@ -135,4 +135,4 @@ ROUTES.struktur = el => {
     }
     persist(); logAction('set_jabatan', { idUser, jabatan }); closeModal(); showTab('struktur'); showToast('Disimpan');
   };
-};
+}; 
