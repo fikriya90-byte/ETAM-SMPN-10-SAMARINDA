@@ -1,5 +1,5 @@
 /* =====================================================================
-   config.js — State Global & Konstanta
+   config.js — State Global
    ===================================================================== */
 
 const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -18,9 +18,8 @@ let KAS_SETTING = {}, KAS_BAYAR = [], APP_SETTINGS = {};
 let STRUKTUR_EKSKUL = {}, LAPORAN_FOTO = [];
 let KONTEN = [], PENGUMUMAN = [], NOTIFIKASI = [], LOGS = [], LUPA_PASSWORD = [];
 let CURRENT_USER = null, CURRENT_EKSKUL_CTX = null, QR_SCANNER = null;
-let loginRole = 'murid';
+let loginRole = 'murid', regRole = 'murid';
 
-/* Admin default */
 const ADMIN_DEFAULT = {
   id_user: 'u_admin',
   nama_lengkap: 'Administrator ETAM',
