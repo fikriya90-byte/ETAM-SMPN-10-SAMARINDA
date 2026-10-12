@@ -41,4 +41,4 @@ const DEFAULT_SETTINGS = {
   dinas: 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   kota: 'PEMERINTAH KOTA SAMARINDA',
   alamat_sekolah: 'Jl. Untung Suropati No.01, Karang Asam Ulu, Sungai Kuning 75126'
-};
+}; 
