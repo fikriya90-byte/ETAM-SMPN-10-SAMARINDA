@@ -1,5 +1,5 @@
 /* =====================================================================
-   storage.js — DB layer + seed
+   storage.js — DB layer + notifikasi & pengumuman helper
    ===================================================================== */
 
 const DB = {
@@ -28,7 +28,7 @@ function persist() {
   DB.set('lupa_password', LUPA_PASSWORD); DB.set('settings', APP_SETTINGS);
 }
 
-/* IndexedDB untuk foto base64 */
+/* IndexedDB foto */
 const FotoDB = (() => {
   const DB_NAME = 'etam_foto_db';
   const STORE = 'photos';
@@ -96,9 +96,86 @@ function logAction(aksi, detail = {}) {
   DB.set('logs', LOGS);
 }
 
+/* ============ NOTIFIKASI HELPER ============ */
+
+/**
+ * Kirim notifikasi ke user tertentu
+ * @param {string} idUser - ID user penerima
+ * @param {string} judul - Judul notifikasi
+ * @param {string} isi - Isi notifikasi
+ * @param {string} tipe - info / warning / success
+ */
+function kirimNotif(idUser, judul, isi, tipe = 'info') {
+  if (!idUser) return;
+  NOTIFIKASI.push({
+    id_notif: uid('nt'),
+    id_user: idUser,
+    judul,
+    isi,
+    tipe,
+    dibaca: false,
+    created_at: new Date().toISOString()
+  });
+  if (NOTIFIKASI.length > 500) NOTIFIKASI = NOTIFIKASI.slice(-500);
+  DB.set('notifikasi', NOTIFIKASI);
+  updateNotifBadge();
+}
+
+/**
+ * Kirim notifikasi ke semua anggota ekskul tertentu
+ */
+function kirimNotifEkskul(idEkskul, judul, isi, tipe = 'info', kecualiUserId = null) {
+  anggotaAktifOf(idEkskul).forEach(a => {
+    if (a.id_user !== kecualiUserId) kirimNotif(a.id_user, judul, isi, tipe);
+  });
+}
+
+/**
+ * Kirim notifikasi ke semua user (broadcast)
+ */
+function kirimNotifSemua(judul, isi, tipe = 'info') {
+  USERS.forEach(u => {
+    if (u.active) kirimNotif(u.id_user, judul, isi, tipe);
+  });
+}
+
+/**
+ * Ambil notifikasi user yang sedang login
+ */
+function notifSaya() {
+  if (!CURRENT_USER) return [];
+  return NOTIFIKASI.filter(n => n.id_user === CURRENT_USER.id_user)
+    .sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+}
+
+/**
+ * Hitung notif belum dibaca
+ */
+function countNotifBelumDibaca() {
+  if (!CURRENT_USER) return 0;
+  return NOTIFIKASI.filter(n => n.id_user === CURRENT_USER.id_user && !n.dibaca).length;
+}
+
+/**
+ * Update badge di header
+ */
+function updateNotifBadge() {
+  const badge = document.getElementById('notif-badge');
+  if (!badge) return;
+  const count = countNotifBelumDibaca();
+  if (count > 0) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+/* ============ SEED ============ */
+
 async function seedIfEmpty() {
   USERS = DB.get('users', null) || [];
-  let adminExists = USERS.some(u => u.email === ADMIN_DEFAULT.email);
+  const adminExists = USERS.some(u => u.email === ADMIN_DEFAULT.email);
   if (!adminExists) {
     const adminHash = await hashPwd(ADMIN_DEFAULT_PASSWORD);
     USERS.push(Object.assign({}, ADMIN_DEFAULT, {
@@ -108,7 +185,6 @@ async function seedIfEmpty() {
     }));
     DB.set('users', USERS);
   }
-  // Migrasi: hash lama djb2 → tetap kompatibel (login pakai hashPwd baru, tapi cek dua-duanya di auth)
 
   EKSKUL = DB.get('ekskul', []) || [];
   PEMBINA = DB.get('pembina', []) || [];
@@ -125,4 +201,11 @@ async function seedIfEmpty() {
   LOGS = DB.get('logs', []) || [];
   LUPA_PASSWORD = DB.get('lupa_password', []) || [];
   APP_SETTINGS = Object.assign({}, DEFAULT_SETTINGS, DB.get('settings', {}) || {});
-} 
+}
+
+window.kirimNotif = kirimNotif;
+window.kirimNotifEkskul = kirimNotifEkskul;
+window.kirimNotifSemua = kirimNotifSemua;
+window.notifSaya = notifSaya;
+window.countNotifBelumDibaca = countNotifBelumDibaca;
+window.updateNotifBadge = updateNotifBadge;
