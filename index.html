@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- ============ LOGIN ============ -->
 <div id="login-screen">
   <div class="login-art-bg" aria-hidden="true">
     <div class="blob blob-1"></div>
@@ -48,6 +48,10 @@
 
     <section class="login-form-side">
       <div class="login-head">
+        <div class="logo-row">
+          <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMP" class="logo-img" onerror="this.style.display='none'">
+          <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="logo-img" onerror="this.style.display='none'">
+        </div>
         <h1 class="brand-etam brand-title">ETAM</h1>
         <p class="brand-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
         <p class="brand-school">SMP Negeri 10 Samarinda</p>
@@ -180,58 +184,42 @@
   </div>
 </div>
 
-<!-- ================= APP (SIDEBAR LAYOUT) ================= -->
+<!-- ============ APP (SIDEBAR LAYOUT) ============ -->
 <div id="app" class="hidden app-sidebar-layout">
 
-  <!-- SIDEBAR OVERLAY (mobile) -->
   <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebarMobile()"></div>
 
-  <!-- SIDEBAR -->
   <aside id="sidebar" class="sidebar">
     <div id="nav-tabs"></div>
   </aside>
 
-  <!-- MAIN WRAPPER -->
   <div class="main-wrapper">
-
-    <!-- HEADER -->
     <header class="top-header">
       <div class="top-header-inner">
-        <!-- Hamburger (mobile) -->
         <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
-
-        <!-- Logo Kiri (SMPN 10) -->
         <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMPN 10" class="top-logo" onerror="this.style.display='none'">
-
-        <!-- Title -->
         <div class="top-header-titles">
           <h1 class="top-header-title" id="page-title">Dashboard</h1>
           <p class="top-header-sub">Ekstrakurikuler Terpadu Absensi Murid</p>
         </div>
-
-        <!-- Logo Kanan (ETAM) -->
         <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="top-logo top-logo-right" onerror="this.style.display='none'">
-
-        <!-- Actions -->
         <div class="top-header-actions">
           <button type="button" class="header-btn" onclick="cycleTheme()" title="Tema">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="4"/>
             </svg>
             <span id="theme-label-app" class="hide-mobile">Auto</span>
           </button>
-          <button type="button" class="header-btn header-btn-icon" onclick="showTab('notifikasi')" title="Notifikasi" style="position:relative">
+          <button type="button" class="header-btn header-btn-icon" onclick="showTab('notifikasi')" title="Notifikasi">
             🔔
             <span id="notif-badge" class="notif-badge hidden">0</span>
           </button>
-          <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
         </div>
       </div>
     </header>
 
-    <!-- CONTENT -->
     <main class="main-content" id="main-content"></main>
   </div>
 
