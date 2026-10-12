@@ -8,13 +8,15 @@ const NAV = {
     { key:'verifikasi', label:'Verifikasi' },
     { key:'ekskul', label:'Ekskul' },
     { key:'struktur', label:'Struktur' },
+    { key:'pengumuman', label:'Pengumuman' },
     { key:'rekap', label:'Rekap' },
     { key:'kas', label:'Kas' },
     { key:'laporan', label:'Laporan' },
     { key:'peta', label:'Peta' },
     { key:'log', label:'Log' },
     { key:'lupapwd', label:'Lupa Pwd' },
-    { key:'setting', label:'Setting' }
+    { key:'setting', label:'Setting' },
+    { key:'faq', label:'FAQ' }
   ],
   guru: [
     { key:'dashboard', label:'Dashboard' },
@@ -22,11 +24,14 @@ const NAV = {
     { key:'jurnal', label:'Jurnal' },
     { key:'izin', label:'Izin' },
     { key:'struktur', label:'Struktur' },
+    { key:'konten', label:'Konten' },
+    { key:'pengumuman', label:'Pengumuman' },
     { key:'foto', label:'Foto' },
     { key:'kas', label:'Kas' },
     { key:'laporan', label:'Laporan' },
-    { key:'profil', label:'Profil Ekskul' },
-    { key:'peta', label:'Peta' }
+    { key:'kalender', label:'Kalender' },
+    { key:'profil', label:'Profil' },
+    { key:'faq', label:'FAQ' }
   ],
   pelatih: [
     { key:'dashboard', label:'Dashboard' },
@@ -34,11 +39,14 @@ const NAV = {
     { key:'jurnal', label:'Jurnal' },
     { key:'izin', label:'Izin' },
     { key:'struktur', label:'Struktur' },
+    { key:'konten', label:'Konten' },
+    { key:'pengumuman', label:'Pengumuman' },
     { key:'foto', label:'Foto' },
     { key:'kas', label:'Kas' },
     { key:'laporan', label:'Laporan' },
-    { key:'profil', label:'Profil Ekskul' },
-    { key:'peta', label:'Peta' }
+    { key:'kalender', label:'Kalender' },
+    { key:'profil', label:'Profil' },
+    { key:'faq', label:'FAQ' }
   ],
   pengurus: [
     { key:'dashboard', label:'Dashboard' },
@@ -46,11 +54,14 @@ const NAV = {
     { key:'jurnal', label:'Jurnal' },
     { key:'izin', label:'Izin' },
     { key:'struktur', label:'Struktur' },
+    { key:'konten', label:'Konten' },
+    { key:'pengumuman', label:'Pengumuman' },
     { key:'foto', label:'Foto' },
     { key:'kas', label:'Kas' },
     { key:'laporan', label:'Laporan' },
-    { key:'profil', label:'Profil Ekskul' },
-    { key:'peta', label:'Peta' }
+    { key:'kalender', label:'Kalender' },
+    { key:'profil', label:'Profil' },
+    { key:'faq', label:'FAQ' }
   ],
   murid: [
     { key:'dashboard', label:'Dashboard' },
@@ -59,8 +70,13 @@ const NAV = {
     { key:'riwayat', label:'Riwayat' },
     { key:'kas', label:'Kas Saya' },
     { key:'kartu', label:'Kartu Ekskul' },
+    { key:'pengumuman', label:'Pengumuman' },
+    { key:'konten', label:'Info & Kegiatan' },
+    { key:'kalender', label:'Kalender' },
     { key:'peta', label:'Peta' },
-    { key:'profil', label:'Profil Saya' }
+    { key:'notifikasi', label:'Notifikasi' },
+    { key:'profil', label:'Profil Saya' },
+    { key:'faq', label:'FAQ' }
   ]
 };
 
@@ -87,6 +103,7 @@ function showTab(key) {
   try {
     ROUTES[key](el);
     if (key === 'sesi' && typeof afterRenderSesi === 'function') afterRenderSesi();
+    if (key === 'notifikasi') updateNotifBadge();
   } catch (e) {
     console.error(e);
     el.innerHTML = `<div class="card"><div class="card-body text-center py-8" style="color:#F87171">Error: ${esc(e.message)}</div></div>`;
