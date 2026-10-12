@@ -128,7 +128,7 @@
             <input type="text" id="reg-name" class="field-input" placeholder="Nama lengkap" required></div>
           <div class="field-group"><label class="field-label">Email</label>
             <input type="email" id="reg-email" class="field-input" placeholder="nama@email.com" required></div>
-          
+
           <div id="reg-fields-murid">
             <div class="field-group"><label class="field-label">NIS</label>
               <input type="text" id="reg-nis" class="field-input" placeholder="Nomor Induk Siswa"></div>
@@ -180,36 +180,61 @@
   </div>
 </div>
 
-<!-- ================= APP ================= -->
-<div id="app" class="hidden">
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="header-titles">
-        <h1 class="brand-etam header-title">ETAM</h1>
-        <p class="header-subtitle">Ekstrakurikuler Terpadu Absensi Murid</p>
-        <p class="header-school">SMP Negeri 10 Samarinda</p>
-      </div>
-      <div class="header-actions">
-        <button type="button" class="theme-toggle-btn" onclick="cycleTheme()">
-          <span id="theme-label-app" class="hide-mobile">Auto</span>
-        </button>
-        <button type="button" class="btn-icon btn-dark" onclick="showTab('notifikasi')" title="Notifikasi" style="position:relative">
-          🔔
-          <span id="notif-badge" class="notif-badge hidden">0</span>
-        </button>
-        <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
-        <button type="button" onclick="logout()" class="btn-icon btn-dark" title="Keluar">⎋</button>
-      </div>
-    </div>
-  </header>
+<!-- ================= APP (SIDEBAR LAYOUT) ================= -->
+<div id="app" class="hidden app-sidebar-layout">
 
-  <nav class="nav-bar">
-    <div class="nav-inner">
-      <div class="nav-tabs" id="nav-tabs"></div>
-    </div>
-  </nav>
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebarMobile()"></div>
 
-  <main class="main-content" id="main-content"></main>
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div id="nav-tabs"></div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+
+    <!-- HEADER -->
+    <header class="top-header">
+      <div class="top-header-inner">
+        <!-- Hamburger (mobile) -->
+        <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- Logo Kiri (SMPN 10) -->
+        <img src="https://iili.io/nHvZkQt.md.png" alt="Logo SMPN 10" class="top-logo" onerror="this.style.display='none'">
+
+        <!-- Title -->
+        <div class="top-header-titles">
+          <h1 class="top-header-title" id="page-title">Dashboard</h1>
+          <p class="top-header-sub">Ekstrakurikuler Terpadu Absensi Murid</p>
+        </div>
+
+        <!-- Logo Kanan (ETAM) -->
+        <img src="https://iili.io/nYaQluR.md.png" alt="Logo ETAM" class="top-logo top-logo-right" onerror="this.style.display='none'">
+
+        <!-- Actions -->
+        <div class="top-header-actions">
+          <button type="button" class="header-btn" onclick="cycleTheme()" title="Tema">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"/>
+            </svg>
+            <span id="theme-label-app" class="hide-mobile">Auto</span>
+          </button>
+          <button type="button" class="header-btn header-btn-icon" onclick="showTab('notifikasi')" title="Notifikasi" style="position:relative">
+            🔔
+            <span id="notif-badge" class="notif-badge hidden">0</span>
+          </button>
+          <div class="role-badge hide-mobile"><span id="role-badge-text">-</span></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="main-content" id="main-content"></main>
+  </div>
+
   <div id="toast-container" class="toast-container"></div>
 </div>
 
